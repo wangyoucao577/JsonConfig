@@ -73,5 +73,8 @@
     <ClInclude Include="..\..\src\json_config_contents.h">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\json_config_errors.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

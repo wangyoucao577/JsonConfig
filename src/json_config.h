@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pthread.h"
+#include "json_config_errors.h"
 
 using namespace std;
 
@@ -19,20 +20,6 @@ typedef long long int64_t;
 #define JSON_CONFIG_API
 #endif
 
-enum JsonConfigErrors {
-    kOK = 0,
-    
-    kErrorOffset = 10001,
-
-    kErrorNotInitialize,
-    kErrorItemsInitialized,
-    kErrorMultipleInitialize,
-    kErrorItemExist,
-    kErrorItemNotExist,
-
-    kErrorOpenFileWithWriteFailed,
-
-};
 
 struct JsonConfigContents;
 
