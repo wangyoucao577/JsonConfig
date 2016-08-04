@@ -20,9 +20,6 @@
     <ClCompile Include="..\..\src\json_config.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\jsoncpp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\sample.cc">
       <Filter>src</Filter>
     </ClCompile>
@@ -40,10 +37,34 @@
     <ClInclude Include="..\..\include\Pre-built.2\semaphore.h">
       <Filter>headers\pthread</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\json\assertions.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\autolink.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\config.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\features.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\forwards.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\include\json\json.h">
       <Filter>headers\json</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\json\json-forwards.h">
+    <ClInclude Include="..\..\include\json\reader.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\value.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\version.h">
+      <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\json\writer.h">
       <Filter>headers\json</Filter>
     </ClInclude>
   </ItemGroup>
