@@ -118,48 +118,6 @@ bool JsonConfig::insert_config_item(const string& key, double default_value)
     return true;
 }
 
-//bool JsonConfig::correct_configs(Json::Value& config_items)
-//{
-//    bool anything_changed = false;
-//
-//    for (map<string, string>::iterator it = key_string_items_.begin(); it != key_string_items_.end(); ++it) {
-//        if (config_items[it->first].empty() || !config_items[it->first].isString()) {
-//            config_items[it->first] = it->second;
-//            anything_changed = true;
-//        }
-//    }
-//
-//    for (map<string, bool>::iterator it = key_bool_items_.begin(); it != key_bool_items_.end(); ++it) {
-//        if (config_items[it->first].empty() || !config_items[it->first].isBool()) {
-//            config_items[it->first] = it->second;
-//            anything_changed = true;
-//        }
-//    }
-//
-//    for (map<string, int>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
-//        if (config_items[it->first].empty() || !config_items[it->first].isInt()) {
-//            config_items[it->first] = it->second;
-//            anything_changed = true;
-//        }
-//    }
-//
-//    for (map<string, int64_t>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
-//        if (config_items[it->first].empty() || !config_items[it->first].isInt64()) {
-//            config_items[it->first] = it->second;
-//            anything_changed = true;
-//        }
-//    }
-//
-//    for (map <string, double> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
-//        if (config_items[it->first].empty() || !config_items[it->first].isDouble()) {
-//            config_items[it->first] = it->second;
-//            anything_changed = true;
-//        }
-//    }
-//
-//    return anything_changed;
-//}
-
 bool JsonConfig::get_value(const string& key, string& val)
 {
     pthread_mutex_lock(&mutex_);
