@@ -36,6 +36,8 @@ enum JsonConfigErrors {
 
 };
 
+struct JsonConfigContents;
+
 class JSON_CONFIG_API JsonConfig
 {
 public:
@@ -69,21 +71,22 @@ private:
     void set_last_error_unsafe(const JsonConfigErrors& error_code);
     void set_last_error(const JsonConfigErrors& error_code);
 
-    bool correct_configs(Json::Value& config_items);
+    //bool correct_configs(Json::Value& config_items);
     bool save();
 
 private:
-    Json::Value config_items_;
+    JsonConfigContents* config_contents_;
+    //Json::Value config_items_;
     bool initialized_;
     JsonConfigErrors last_error_code_;
     pthread_mutex_t mutex_;
 
     //<key, default_value> pair. dynamic initialize at the beginning. 
-    map<string, string> key_string_items_;
+    /*map<string, string> key_string_items_;
     map<string, bool> key_bool_items_;
     map<string, int> key_int_items_;
     map<string, int64_t> key_int64_items_;
-    map<string, double> key_double_items_;
+    map<string, double> key_double_items_;*/
 
     string config_file_path_;
     pthread_mutex_t config_file_mutex_;

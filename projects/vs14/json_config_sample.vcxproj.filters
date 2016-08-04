@@ -23,6 +23,9 @@
     <ClCompile Include="..\..\src\sample.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\json_config_contents.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\json_config.h">
@@ -66,6 +69,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\json\writer.h">
       <Filter>headers\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\json_config_contents.h">
+      <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
