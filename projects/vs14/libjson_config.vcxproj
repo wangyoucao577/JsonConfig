@@ -146,6 +146,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\libjson_config\json_config.h" />
+    <ClInclude Include="..\..\include\libjson_config\json_config_define.h" />
+    <ClInclude Include="..\..\include\libjson_config\json_config_errors.h" />
     <ClInclude Include="..\..\src\libjson_config\json\assertions.h" />
     <ClInclude Include="..\..\src\libjson_config\json\autolink.h" />
     <ClInclude Include="..\..\src\libjson_config\json\config.h" />

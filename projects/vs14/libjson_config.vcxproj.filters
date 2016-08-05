@@ -15,6 +15,9 @@
     <Filter Include="headers\pthread">
       <UniqueIdentifier>{b3dabcab-a64a-4079-8594-ed0c83620f80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="headers\libjson_config">
+      <UniqueIdentifier>{3cca04bd-777e-49a8-a75f-6193e8d556fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\libjson_config\json\assertions.h">
@@ -58,6 +61,15 @@
     </ClInclude>
     <ClInclude Include="..\..\src\libjson_config\json_config_content.h">
       <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\libjson_config\json_config.h">
+      <Filter>headers\libjson_config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\libjson_config\json_config_define.h">
+      <Filter>headers\libjson_config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\libjson_config\json_config_errors.h">
+      <Filter>headers\libjson_config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
