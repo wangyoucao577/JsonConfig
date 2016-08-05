@@ -1,9 +1,9 @@
 
-#include "json_config.h"
+#include "libjson_config/json_config.h"
 
 void json_config_sample()
 {
-    //¶¯Ì¬³õÊ¼»¯ÅäÖÃµÄkey-default_value¶Ô
+    //åŠ¨æ€åˆå§‹åŒ–é…ç½®çš„key-default_valueå¯¹
     JsonConfig *jc = new JsonConfig("json.cfg");
     jc->insert_config_item("str_key_1", (string)"str_1");
     jc->insert_config_item("str_key_2", (string)"str_2");
@@ -16,7 +16,7 @@ void json_config_sample()
     jc->insert_config_item("int64_key_9", 11111111111111111111LL);
     jc->insert_config_item("double_key_10", 32423432.32);
 
-    //´ÓÅäÖÃÎÄ¼þ¶ÁÈ¡
+    //ä»Žé…ç½®æ–‡ä»¶è¯»å–
     jc->initialize_load();
 
 
@@ -26,5 +26,9 @@ int main()
 {
     json_config_sample();
 
+    //wait before return
+    printf("Please press any key to continue...");
+    char a;
+    scanf_s("%c", &a, (int)sizeof(a));
     return 0;
 }

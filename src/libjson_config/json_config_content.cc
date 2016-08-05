@@ -1,33 +1,32 @@
 
 #include <fstream>
-#include "json_config.h"
-#include "json_config_contents.h"
+#include "json_config_content.h"
 
 #define JSON_CONFIG_LOG(type, ...) printf(type, ##__VA_ARGS__)
 #define JSON_CONFIG_ASSERT(cond) assert(cond)
 
-JsonConfig::JsonConfig(string config_file_path):
-config_file_path_(config_file_path), 
-initialized_(false),
-last_error_code_(kOK)
-{
-    config_contents_ = new JsonConfigContents();
 
+
+#include "json_config.h"
+
+
+JsonConfigContent::JsonConfigContent(string config_file_path) :
+    config_file_path_(config_file_path),
+    initialized_(false),
+    last_error_code_(kOK)
+{
     pthread_mutex_init(&mutex_, NULL);
     pthread_mutex_init(&config_file_mutex_, NULL);
 }
 
 
-JsonConfig::~JsonConfig()
+JsonConfigContent::~JsonConfigContent()
 {
-    delete config_contents_;
-    config_contents_ = NULL;
-
     pthread_mutex_destroy(&mutex_);
     pthread_mutex_destroy(&config_file_mutex_);
 }
 
-bool JsonConfig::insert_config_item(const string& key, string default_value)
+bool JsonConfigContent::insert_config_item(const string& key, string default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
@@ -36,7 +35,7 @@ bool JsonConfig::insert_config_item(const string& key, string default_value)
         return false;
     }
 
-    pair<map<string, string>::iterator, bool> ret = config_contents_->key_string_items.insert(map<string, string>::value_type(key, default_value));
+    pair<map<string, string>::iterator, bool> ret = key_string_items_.insert(map<string, string>::value_type(key, default_value));
     if (!ret.second) {
         set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
@@ -45,7 +44,7 @@ bool JsonConfig::insert_config_item(const string& key, string default_value)
     pthread_mutex_unlock(&mutex_);
     return true;
 }
-bool JsonConfig::insert_config_item(const string& key, bool default_value)
+bool JsonConfigContent::insert_config_item(const string& key, bool default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
@@ -54,7 +53,7 @@ bool JsonConfig::insert_config_item(const string& key, bool default_value)
         return false;
     }
 
-    pair<map<string, bool>::iterator, bool> ret = config_contents_->key_bool_items.insert(map<string, bool>::value_type(key, default_value));
+    pair<map<string, bool>::iterator, bool> ret = key_bool_items_.insert(map<string, bool>::value_type(key, default_value));
     if (!ret.second) {
         set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
@@ -63,7 +62,7 @@ bool JsonConfig::insert_config_item(const string& key, bool default_value)
     pthread_mutex_unlock(&mutex_);
     return true;
 }
-bool JsonConfig::insert_config_item(const string& key, int default_value)
+bool JsonConfigContent::insert_config_item(const string& key, int default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
@@ -72,7 +71,7 @@ bool JsonConfig::insert_config_item(const string& key, int default_value)
         return false;
     }
 
-    pair<map<string, int>::iterator, bool> ret = config_contents_->key_int_items.insert(map<string, int>::value_type(key, default_value));
+    pair<map<string, int>::iterator, bool> ret = key_int_items_.insert(map<string, int>::value_type(key, default_value));
     if (!ret.second) {
         set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
@@ -81,7 +80,7 @@ bool JsonConfig::insert_config_item(const string& key, int default_value)
     pthread_mutex_unlock(&mutex_);
     return true;
 }
-bool JsonConfig::insert_config_item(const string& key, int64_t default_value)
+bool JsonConfigContent::insert_config_item(const string& key, int64_t default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
@@ -90,7 +89,7 @@ bool JsonConfig::insert_config_item(const string& key, int64_t default_value)
         return false;
     }
 
-    pair<map<string, int64_t>::iterator, bool> ret = config_contents_->key_int64_items.insert(map<string, int64_t>::value_type(key, default_value));
+    pair<map<string, int64_t>::iterator, bool> ret = key_int64_items_.insert(map<string, int64_t>::value_type(key, default_value));
     if (!ret.second) {
         set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
@@ -99,7 +98,7 @@ bool JsonConfig::insert_config_item(const string& key, int64_t default_value)
     pthread_mutex_unlock(&mutex_);
     return true;
 }
-bool JsonConfig::insert_config_item(const string& key, double default_value)
+bool JsonConfigContent::insert_config_item(const string& key, double default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
@@ -108,7 +107,7 @@ bool JsonConfig::insert_config_item(const string& key, double default_value)
         return false;
     }
 
-    pair<map<string, double>::iterator, bool> ret = config_contents_->key_double_items.insert(map<string, double>::value_type(key, default_value));
+    pair<map<string, double>::iterator, bool> ret = key_double_items_.insert(map<string, double>::value_type(key, default_value));
     if (!ret.second) {
         set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
@@ -118,7 +117,49 @@ bool JsonConfig::insert_config_item(const string& key, double default_value)
     return true;
 }
 
-bool JsonConfig::get_value(const string& key, string& val)
+bool JsonConfigContent::correct_configs(Json::Value& config_items)
+{
+    bool anything_changed = false;
+
+    for (map<string, string>::iterator it = key_string_items_.begin(); it != key_string_items_.end(); ++it) {
+        if (config_items[it->first].empty() || !config_items[it->first].isString()) {
+            config_items[it->first] = it->second;
+            anything_changed = true;
+        }
+    }
+
+    for (map<string, bool>::iterator it = key_bool_items_.begin(); it != key_bool_items_.end(); ++it) {
+        if (config_items[it->first].empty() || !config_items[it->first].isBool()) {
+            config_items[it->first] = it->second;
+            anything_changed = true;
+        }
+    }
+
+    for (map<string, int>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
+        if (config_items[it->first].empty() || !config_items[it->first].isInt()) {
+            config_items[it->first] = it->second;
+            anything_changed = true;
+        }
+    }
+
+    for (map<string, int64_t>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
+        if (config_items[it->first].empty() || !config_items[it->first].isInt64()) {
+            config_items[it->first] = it->second;
+            anything_changed = true;
+        }
+    }
+
+    for (map <string, double> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
+        if (config_items[it->first].empty() || !config_items[it->first].isDouble()) {
+            config_items[it->first] = it->second;
+            anything_changed = true;
+        }
+    }
+
+    return anything_changed;
+}
+
+bool JsonConfigContent::get_value(const string& key, string& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -127,12 +168,12 @@ bool JsonConfig::get_value(const string& key, string& val)
         return false;
     }
 
-    val = (config_contents_->config_items)[key].asString();
+    val = config_items_[key].asString();
     pthread_mutex_unlock(&mutex_);
     return true;
 
 }
-bool JsonConfig::get_value(const string& key, bool& val)
+bool JsonConfigContent::get_value(const string& key, bool& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -141,12 +182,12 @@ bool JsonConfig::get_value(const string& key, bool& val)
         return false;
     }
 
-    val = (config_contents_->config_items)[key].asBool();
+    val = config_items_[key].asBool();
     pthread_mutex_unlock(&mutex_);
     return true;
 
 }
-bool JsonConfig::get_value(const string& key, int&val)
+bool JsonConfigContent::get_value(const string& key, int&val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -155,12 +196,12 @@ bool JsonConfig::get_value(const string& key, int&val)
         return false;
     }
 
-    val = (config_contents_->config_items)[key].asInt();
+    val = config_items_[key].asInt();
     pthread_mutex_unlock(&mutex_);
     return true;
 
 }
-bool JsonConfig::get_value(const string& key, int64_t& val)
+bool JsonConfigContent::get_value(const string& key, int64_t& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -169,12 +210,12 @@ bool JsonConfig::get_value(const string& key, int64_t& val)
         return false;
     }
 
-    val = (config_contents_->config_items)[key].asInt64();
+    val = config_items_[key].asInt64();
     pthread_mutex_unlock(&mutex_);
     return true;
 
 }
-bool JsonConfig::get_value(const string& key, double& val)
+bool JsonConfigContent::get_value(const string& key, double& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -183,12 +224,12 @@ bool JsonConfig::get_value(const string& key, double& val)
         return false;
     }
 
-    val = (config_contents_->config_items)[key].asDouble();
+    val = config_items_[key].asDouble();
     pthread_mutex_unlock(&mutex_);
     return true;
 }
 
-bool JsonConfig::set_value(const string& key, string val)
+bool JsonConfigContent::set_value(const string& key, string val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -197,16 +238,16 @@ bool JsonConfig::set_value(const string& key, string val)
         return false;
     }
 
-    if (0 == (config_contents_->config_items)[key].asString().compare(val)) {
+    if (0 == config_items_[key].asString().compare(val)) {
         pthread_mutex_unlock(&mutex_);
         return true;
     }
-    (config_contents_->config_items)[key] = val;
+    config_items_[key] = val;
     pthread_mutex_unlock(&mutex_);
 
     return save();
 }
-bool JsonConfig::set_value(const string& key, bool val)
+bool JsonConfigContent::set_value(const string& key, bool val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -215,76 +256,76 @@ bool JsonConfig::set_value(const string& key, bool val)
         return false;
     }
 
-    if ((config_contents_->config_items)[key].asBool() == val) {
+    if (config_items_[key].asBool() == val) {
         pthread_mutex_unlock(&mutex_);
         return true;
     }
-    (config_contents_->config_items)[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-bool JsonConfig::set_value(const string& key, int val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if ((config_contents_->config_items)[key].asInt() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    (config_contents_->config_items)[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-bool JsonConfig::set_value(const string& key, int64_t val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if ((config_contents_->config_items)[key].asInt64() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    (config_contents_->config_items)[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-bool JsonConfig::set_value(const string& key, double val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if ((config_contents_->config_items)[key].asDouble() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    (config_contents_->config_items)[key] = val;
+    config_items_[key] = val;
     pthread_mutex_unlock(&mutex_);
 
     return save();
 
 }
+bool JsonConfigContent::set_value(const string& key, int val)
+{
+    pthread_mutex_lock(&mutex_);
+    if (!initialized_) {
+        set_last_error_unsafe(kErrorNotInitialize);
+        pthread_mutex_unlock(&mutex_);
+        return false;
+    }
+
+    if (config_items_[key].asInt() == val) {
+        pthread_mutex_unlock(&mutex_);
+        return true;
+    }
+    config_items_[key] = val;
+    pthread_mutex_unlock(&mutex_);
+
+    return save();
+
+}
+bool JsonConfigContent::set_value(const string& key, int64_t val)
+{
+    pthread_mutex_lock(&mutex_);
+    if (!initialized_) {
+        set_last_error_unsafe(kErrorNotInitialize);
+        pthread_mutex_unlock(&mutex_);
+        return false;
+    }
+
+    if (config_items_[key].asInt64() == val) {
+        pthread_mutex_unlock(&mutex_);
+        return true;
+    }
+    config_items_[key] = val;
+    pthread_mutex_unlock(&mutex_);
+
+    return save();
+
+}
+bool JsonConfigContent::set_value(const string& key, double val)
+{
+    pthread_mutex_lock(&mutex_);
+    if (!initialized_) {
+        set_last_error_unsafe(kErrorNotInitialize);
+        pthread_mutex_unlock(&mutex_);
+        return false;
+    }
+
+    if (config_items_[key].asDouble() == val) {
+        pthread_mutex_unlock(&mutex_);
+        return true;
+    }
+    config_items_[key] = val;
+    pthread_mutex_unlock(&mutex_);
+
+    return save();
+
+}
 
 
-bool JsonConfig::initialize_load()
+bool JsonConfigContent::initialize_load()
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) { //only allow to invoke once.
@@ -305,8 +346,7 @@ bool JsonConfig::initialize_load()
     if (!ifs) {
         JSON_CONFIG_LOG("%s config file %s in open failed, we'll create a new one.\n", __FUNCTION__, config_file_path_.c_str());
 
-        //correct_configs(new_config_items);
-        config_contents_->correct_configs(new_config_items);
+        correct_configs(new_config_items);
         need_save_to_file = true;
     }
     else {
@@ -324,17 +364,17 @@ bool JsonConfig::initialize_load()
         if (!config_reader.parse(config_str, new_config_items)) {
             JSON_CONFIG_LOG("%s config parse failed, restore to default.\n", __FUNCTION__);
 
-            config_contents_->correct_configs(new_config_items);
+            correct_configs(new_config_items);
             need_save_to_file = true;
         }
-        else if (config_contents_->correct_configs(new_config_items)) {
+        else if (correct_configs(new_config_items)) {
             need_save_to_file = true;
         }
     }
     pthread_mutex_unlock(&config_file_mutex_);
 
     pthread_mutex_lock(&mutex_);
-    (config_contents_->config_items) = new_config_items;
+    config_items_ = new_config_items;
     pthread_mutex_unlock(&mutex_);
 
     if (need_save_to_file) {
@@ -344,10 +384,10 @@ bool JsonConfig::initialize_load()
     return true;
 }
 
-bool JsonConfig::save()
+bool JsonConfigContent::save()
 {
     pthread_mutex_lock(&mutex_);
-    Json::Value copy_config_items = (config_contents_->config_items);
+    Json::Value copy_config_items = config_items_;
     pthread_mutex_unlock(&mutex_);
 
     pthread_mutex_lock(&config_file_mutex_);
@@ -370,19 +410,19 @@ bool JsonConfig::save()
     return true;
 }
 
-void JsonConfig::set_last_error_unsafe(const JsonConfigErrors& error_code)
+void JsonConfigContent::set_last_error_unsafe(const JsonConfigErrors& error_code)
 {
     last_error_code_ = error_code;
 }
 
-void JsonConfig::set_last_error(const JsonConfigErrors& error_code)
+void JsonConfigContent::set_last_error(const JsonConfigErrors& error_code)
 {
     pthread_mutex_lock(&mutex_);
     last_error_code_ = error_code;
     pthread_mutex_unlock(&mutex_);
 }
 
-void JsonConfig::get_last_error(JsonConfigErrors& error_code, string& msg)
+void JsonConfigContent::get_last_error(JsonConfigErrors& error_code, string& msg)
 {
     pthread_mutex_lock(&mutex_);
     error_code = last_error_code_;
