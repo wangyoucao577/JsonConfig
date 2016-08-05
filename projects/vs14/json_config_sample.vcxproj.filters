@@ -9,75 +9,24 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="headers\json">
-      <UniqueIdentifier>{bfdd2135-a0af-4ea3-aea9-77eb5d30e250}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="headers\pthread">
-      <UniqueIdentifier>{58aa02d5-6f19-46c6-a054-0a527e658550}</UniqueIdentifier>
+    <Filter Include="headers\libjson_config">
+      <UniqueIdentifier>{277f9993-1151-419b-97ff-3d8672e31632}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\json_config.cc">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\sample.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\json_config_content.cc">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\json_config.h">
-      <Filter>headers</Filter>
+    <ClInclude Include="..\..\include\libjson_config\json_config.h">
+      <Filter>headers\libjson_config</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Pre-built.2\pthread.h">
-      <Filter>headers\pthread</Filter>
+    <ClInclude Include="..\..\include\libjson_config\json_config_define.h">
+      <Filter>headers\libjson_config</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Pre-built.2\sched.h">
-      <Filter>headers\pthread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\Pre-built.2\semaphore.h">
-      <Filter>headers\pthread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\assertions.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\autolink.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\config.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\features.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\forwards.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\json.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\reader.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\value.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\version.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\json\writer.h">
-      <Filter>headers\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\json_config_content.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\json_config_errors.h">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\json_config_define.h">
-      <Filter>headers</Filter>
+    <ClInclude Include="..\..\include\libjson_config\json_config_errors.h">
+      <Filter>headers\libjson_config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

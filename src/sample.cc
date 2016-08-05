@@ -1,5 +1,5 @@
 
-#include "json_config.h"
+#include "libjson_config/json_config.h"
 
 void json_config_sample()
 {

@@ -74,6 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\..\build\win\$(Platform)_$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -100,11 +101,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;LIBJSON_CONFIG_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;LIBJSON_CONFIG_EXPORTS;JSON_CONFIG_DLL_BUILD;HAVE_STRUCT_TIMESPEC;JSON_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include/libjson_config/;../../include/;../../src/libjson_config/Pre-built.2/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../lib/libjsoncpp/;../../lib/Pre-built.2_x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lib_json.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,6 +146,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\libjson_config\json\assertions.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\autolink.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\config.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\features.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\forwards.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\json.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\reader.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\value.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\version.h" />
+    <ClInclude Include="..\..\src\libjson_config\json\writer.h" />
+    <ClInclude Include="..\..\src\libjson_config\json_config_content.h" />
+    <ClInclude Include="..\..\src\libjson_config\Pre-built.2\pthread.h" />
+    <ClInclude Include="..\..\src\libjson_config\Pre-built.2\sched.h" />
+    <ClInclude Include="..\..\src\libjson_config\Pre-built.2\semaphore.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\libjson_config\json_config.cc" />
+    <ClCompile Include="..\..\src\libjson_config\json_config_content.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

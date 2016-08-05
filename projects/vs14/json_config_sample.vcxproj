@@ -19,28 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\json_config.cc" />
-    <ClCompile Include="..\..\src\json_config_content.cc" />
     <ClCompile Include="..\..\src\sample.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\json\assertions.h" />
-    <ClInclude Include="..\..\include\json\autolink.h" />
-    <ClInclude Include="..\..\include\json\config.h" />
-    <ClInclude Include="..\..\include\json\features.h" />
-    <ClInclude Include="..\..\include\json\forwards.h" />
-    <ClInclude Include="..\..\include\json\json.h" />
-    <ClInclude Include="..\..\include\json\reader.h" />
-    <ClInclude Include="..\..\include\json\value.h" />
-    <ClInclude Include="..\..\include\json\version.h" />
-    <ClInclude Include="..\..\include\json\writer.h" />
-    <ClInclude Include="..\..\include\Pre-built.2\pthread.h" />
-    <ClInclude Include="..\..\include\Pre-built.2\sched.h" />
-    <ClInclude Include="..\..\include\Pre-built.2\semaphore.h" />
-    <ClInclude Include="..\..\src\json_config.h" />
-    <ClInclude Include="..\..\src\json_config_content.h" />
-    <ClInclude Include="..\..\src\json_config_define.h" />
-    <ClInclude Include="..\..\src\json_config_errors.h" />
+    <ClInclude Include="..\..\include\libjson_config\json_config.h" />
+    <ClInclude Include="..\..\include\libjson_config\json_config_define.h" />
+    <ClInclude Include="..\..\include\libjson_config\json_config_errors.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{39389F9B-3179-4098-BE28-ABDA0F126EF9}</ProjectGuid>
@@ -125,14 +109,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;HAVE_STRUCT_TIMESPEC;JSON_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\;..\..\include\Pre-built.2\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;HAVE_STRUCT_TIMESPEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../lib/Pre-built.2_x64;../../lib/libjsoncpp/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>pthreadVC2.lib;lib_json.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../build/win/x64_debug/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libjson_config.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
