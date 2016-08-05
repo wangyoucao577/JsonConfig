@@ -240,19 +240,17 @@ bool JsonConfigContent::get_value(const string& key, double& val)
     pthread_mutex_unlock(&mutex_);
     return true;
 }
-bool JsonConfigContent::set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val)
+JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorNotInitialize;
     }
 
     if (config_items_[key].empty()) {
-        set_last_error_unsafe(kErrorItemNotExist);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemNotExist;
     }
 
     switch (type)
@@ -260,35 +258,35 @@ bool JsonConfigContent::set_value(const string& key, JsonConfigItemType type, co
     case kItemTypeString:
         if (0 == config_items_[key].asString().compare(val.s)) {
             pthread_mutex_unlock(&mutex_);
-            return true;
+            return kOK;
         }
         config_items_[key] = val.s;
         break;
     case kItemTypeInt:
         if (config_items_[key].asInt() == val.i) {
             pthread_mutex_unlock(&mutex_);
-            return true;
+            return kOK;
         }
         config_items_[key] = val.i;
         break;
     case kItemTypeInt64:
         if (config_items_[key].asInt64() == val.i64) {
             pthread_mutex_unlock(&mutex_);
-            return true;
+            return kOK;
         }
         config_items_[key] = val.i64;
         break;
     case kItemTypeDouble:
         if (config_items_[key].asDouble() == val.d) {
             pthread_mutex_unlock(&mutex_);
-            return true;
+            return kOK;
         }
         config_items_[key] = val.d;
         break;
     case kItemTypeBool:
         if (config_items_[key].asBool() == val.b) {
             pthread_mutex_unlock(&mutex_);
-            return true;
+            return kOK;
         }
         config_items_[key] = val.b;
         break;
@@ -353,14 +351,15 @@ bool JsonConfigContent::initialize_load()
     config_items_ = new_config_items;
     pthread_mutex_unlock(&mutex_);
 
+    JsonConfigErrors err = kOK;
     if (need_save_to_file) {
-        return save();
+        err = save();
     }
 
-    return true;
+    return kOK == err ? true : false;
 }
 
-bool JsonConfigContent::save()
+JsonConfigErrors JsonConfigContent::save()
 {
     pthread_mutex_lock(&mutex_);
     Json::Value copy_config_items = config_items_;
@@ -372,8 +371,7 @@ bool JsonConfigContent::save()
     {
         JSON_CONFIG_LOG("%s config file %s out open failed.\n", __FUNCTION__, config_file_path_.c_str());
         pthread_mutex_unlock(&config_file_mutex_);
-        set_last_error(kErrorOpenFileWithWriteFailed);
-        return false;
+        return kErrorOpenFileWithWriteFailed;
     }
     else {
         Json::StyledStreamWriter stream_writer;
@@ -383,7 +381,7 @@ bool JsonConfigContent::save()
         JSON_CONFIG_LOG("%s config file %s saved.\n", __FUNCTION__, config_file_path_.c_str());
     }
     pthread_mutex_unlock(&config_file_mutex_);
-    return true;
+    return kOK;
 }
 
 void JsonConfigContent::set_last_error_unsafe(const JsonConfigErrors& error_code)

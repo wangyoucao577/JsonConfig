@@ -23,11 +23,11 @@ public:
 
     bool initialize_load();
 
-    bool set_value(const string& key, string val);
-    bool set_value(const string& key, bool val);
-    bool set_value(const string& key, int val);
-    bool set_value_int64(const string& key, int64_t val);
-    bool set_value(const string& key, double val);
+    JsonConfigErrors set_value(const string& key, string val);
+    JsonConfigErrors set_value(const string& key, bool val);
+    JsonConfigErrors set_value(const string& key, int val);
+    JsonConfigErrors set_value_int64(const string& key, int64_t val);
+    JsonConfigErrors set_value(const string& key, double val);
 
     bool get_value(const string& key, string& val);
     bool get_value(const string& key, bool& val);

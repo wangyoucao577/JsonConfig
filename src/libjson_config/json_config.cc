@@ -39,31 +39,31 @@ bool JsonConfig::initialize_load()
     return config_content_->initialize_load();
 }
 
-bool JsonConfig::set_value(const string& key, string val)
+JsonConfigErrors JsonConfig::set_value(const string& key, string val)
 {
     JsonConfigItemValue item_val;
     item_val.s = val;
     return config_content_->set_value(key, kItemTypeString, item_val);
 }
-bool JsonConfig::set_value(const string& key, bool val)
+JsonConfigErrors JsonConfig::set_value(const string& key, bool val)
 {
     JsonConfigItemValue item_val;
     item_val.b = val;
     return config_content_->set_value(key, kItemTypeBool, item_val);
 }
-bool JsonConfig::set_value(const string& key, int val)
+JsonConfigErrors JsonConfig::set_value(const string& key, int val)
 {
     JsonConfigItemValue item_val;
     item_val.i = val;
     return config_content_->set_value(key, kItemTypeInt, item_val);
 }
-bool JsonConfig::set_value_int64(const string& key, int64_t val)
+JsonConfigErrors JsonConfig::set_value_int64(const string& key, int64_t val)
 {
     JsonConfigItemValue item_val;
     item_val.i64 = val;
     return config_content_->set_value(key, kItemTypeInt64, item_val);
 }
-bool JsonConfig::set_value(const string& key, double val)
+JsonConfigErrors JsonConfig::set_value(const string& key, double val)
 {
     JsonConfigItemValue item_val;
     item_val.d = val;

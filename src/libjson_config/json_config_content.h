@@ -41,7 +41,7 @@ public:
 
     bool initialize_load();
 
-    bool set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val);
+    JsonConfigErrors set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val);
 
     bool get_value(const string& key, string& val);
     bool get_value(const string& key, bool& val);
@@ -56,7 +56,7 @@ private:
     void set_last_error(const JsonConfigErrors& error_code);
 
     bool correct_configs(Json::Value& config_items);
-    bool save();
+    JsonConfigErrors save();
 
 private:
     Json::Value config_items_;
