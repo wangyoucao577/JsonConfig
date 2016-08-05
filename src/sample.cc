@@ -26,5 +26,9 @@ int main()
 {
     json_config_sample();
 
+    //wait before return
+    printf("Please press any key to continue...");
+    char a;
+    scanf_s("%c", &a, (int)sizeof(a));
     return 0;
 }
