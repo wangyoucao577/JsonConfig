@@ -41,32 +41,38 @@ bool JsonConfig::initialize_load()
 
 bool JsonConfig::set_value(const string& key, string val)
 {
-    return config_content_->set_value(key, val);
+    JsonConfigItemValue item_val;
+    item_val.s = val;
+    return config_content_->set_value(key, kItemTypeString, item_val);
 }
 bool JsonConfig::set_value(const string& key, bool val)
 {
-    return config_content_->set_value(key, val);
-
+    JsonConfigItemValue item_val;
+    item_val.b = val;
+    return config_content_->set_value(key, kItemTypeBool, item_val);
 }
 bool JsonConfig::set_value(const string& key, int val)
 {
-    return config_content_->set_value(key, val);
-
+    JsonConfigItemValue item_val;
+    item_val.i = val;
+    return config_content_->set_value(key, kItemTypeInt, item_val);
 }
 bool JsonConfig::set_value_int64(const string& key, int64_t val)
 {
-    return config_content_->set_value(key, val);
-
+    JsonConfigItemValue item_val;
+    item_val.i64 = val;
+    return config_content_->set_value(key, kItemTypeInt64, item_val);
 }
 bool JsonConfig::set_value(const string& key, double val)
 {
-    return config_content_->set_value(key, val);
-
+    JsonConfigItemValue item_val;
+    item_val.d = val;
+    return config_content_->set_value(key, kItemTypeDouble, item_val);
 }
 
 bool JsonConfig::get_value(const string& key, string& val)
 {
-    return config_content_->set_value(key, val);
+    return config_content_->get_value(key, val);
 
 }
 bool JsonConfig::get_value(const string& key, bool& val)

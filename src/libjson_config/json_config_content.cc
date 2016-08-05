@@ -10,6 +10,15 @@
 #include "json_config.h"
 
 
+JsonConfigItemValue::JsonConfigItemValue() :
+i(0),
+i64(0LL),
+d(0.0),
+b(false)
+{
+
+}
+
 JsonConfigContent::JsonConfigContent(string config_file_path) :
     config_file_path_(config_file_path),
     initialized_(false),
@@ -215,6 +224,8 @@ bool JsonConfigContent::get_value(const string& key, int64_t& val)
     return true;
 
 }
+
+
 bool JsonConfigContent::get_value(const string& key, double& val)
 {
     pthread_mutex_lock(&mutex_);
@@ -228,8 +239,7 @@ bool JsonConfigContent::get_value(const string& key, double& val)
     pthread_mutex_unlock(&mutex_);
     return true;
 }
-
-bool JsonConfigContent::set_value(const string& key, string val)
+bool JsonConfigContent::set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -238,92 +248,50 @@ bool JsonConfigContent::set_value(const string& key, string val)
         return false;
     }
 
-    if (0 == config_items_[key].asString().compare(val)) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
+    switch (type)
+    {
+    case kItemTypeString:
+        if (0 == config_items_[key].asString().compare(val.s)) {
+            pthread_mutex_unlock(&mutex_);
+            return true;
+        }
+        config_items_[key] = val.s;
+        break;
+    case kItemTypeInt:
+        if (config_items_[key].asInt() == val.i) {
+            pthread_mutex_unlock(&mutex_);
+            return true;
+        }
+        config_items_[key] = val.i;
+        break;
+    case kItemTypeInt64:
+        if (config_items_[key].asInt64() == val.i64) {
+            pthread_mutex_unlock(&mutex_);
+            return true;
+        }
+        config_items_[key] = val.i64;
+        break;
+    case kItemTypeDouble:
+        if (config_items_[key].asDouble() == val.d) {
+            pthread_mutex_unlock(&mutex_);
+            return true;
+        }
+        config_items_[key] = val.d;
+        break;
+    case kItemTypeBool:
+        if (config_items_[key].asBool() == val.b) {
+            pthread_mutex_unlock(&mutex_);
+            return true;
+        }
+        config_items_[key] = val.b;
+        break;
+    default:
+        break;
     }
-    config_items_[key] = val;
     pthread_mutex_unlock(&mutex_);
 
     return save();
 }
-bool JsonConfigContent::set_value(const string& key, bool val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if (config_items_[key].asBool() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    config_items_[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-bool JsonConfigContent::set_value(const string& key, int val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if (config_items_[key].asInt() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    config_items_[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-bool JsonConfigContent::set_value(const string& key, int64_t val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if (config_items_[key].asInt64() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    config_items_[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-bool JsonConfigContent::set_value(const string& key, double val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    if (config_items_[key].asDouble() == val) {
-        pthread_mutex_unlock(&mutex_);
-        return true;
-    }
-    config_items_[key] = val;
-    pthread_mutex_unlock(&mutex_);
-
-    return save();
-
-}
-
 
 bool JsonConfigContent::initialize_load()
 {

@@ -8,6 +8,24 @@
 
 using namespace std;
 
+enum JsonConfigItemType {
+    kItemTypeString = 0,
+    kItemTypeInt,
+    kItemTypeInt64,
+    kItemTypeDouble,
+    kItemTypeBool,
+};
+
+struct JsonConfigItemValue {
+    string s;
+    int i;
+    int64_t i64;
+    double d;
+    bool b;
+
+    JsonConfigItemValue();
+};
+
 class JsonConfigContent
 {
 public:
@@ -23,11 +41,7 @@ public:
 
     bool initialize_load();
 
-    bool set_value(const string& key, string val);
-    bool set_value(const string& key, bool val);
-    bool set_value(const string& key, int val);
-    bool set_value(const string& key, int64_t val);
-    bool set_value(const string& key, double val);
+    bool set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val);
 
     bool get_value(const string& key, string& val);
     bool get_value(const string& key, bool& val);
