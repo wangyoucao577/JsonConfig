@@ -12,26 +12,24 @@ JsonConfig::~JsonConfig()
 
 }
 
-bool JsonConfig::insert_config_item(const string& key, string default_value)
+bool JsonConfig::insert_item(const string& key, string default_value)
 {
     return config_content_->insert_config_item(key, default_value);
 }
-bool JsonConfig::insert_config_item(const string& key, bool default_value)
-{
-    return config_content_->insert_config_item(key, default_value);
-
-}
-bool JsonConfig::insert_config_item(const string& key, int default_value)
+bool JsonConfig::insert_item(const string& key, bool default_value)
 {
     return config_content_->insert_config_item(key, default_value);
 
 }
-bool JsonConfig::insert_config_item(const string& key, int64_t default_value)
+bool JsonConfig::insert_item(const string& key, int default_value, int low, int hi)
 {
     return config_content_->insert_config_item(key, default_value);
-
 }
-bool JsonConfig::insert_config_item(const string& key, double default_value)
+bool JsonConfig::insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi)
+{
+    return config_content_->insert_config_item(key, default_value);
+}
+bool JsonConfig::insert_item(const string& key, double default_value)
 {
     return config_content_->insert_config_item(key, default_value);
 }
@@ -55,7 +53,7 @@ bool JsonConfig::set_value(const string& key, int val)
     return config_content_->set_value(key, val);
 
 }
-bool JsonConfig::set_value(const string& key, int64_t val)
+bool JsonConfig::set_value_int64(const string& key, int64_t val)
 {
     return config_content_->set_value(key, val);
 
@@ -81,7 +79,7 @@ bool JsonConfig::get_value(const string& key, int&val)
     return config_content_->get_value(key, val);
 
 }
-bool JsonConfig::get_value(const string& key, int64_t& val)
+bool JsonConfig::get_value_int64(const string& key, int64_t& val)
 {
     return config_content_->get_value(key, val);
 
