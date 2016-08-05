@@ -19,6 +19,12 @@ void json_config_sample()
     //从配置文件读取
     jc->initialize_load();
 
+    jc->set_value("str_key_1", (string)"str_1_changed");
+    bool ret = jc->set_value("str", "fail_test");
+
+    JsonConfigErrors err = kOK;
+    string err_msg;
+    jc->get_last_error(err, err_msg);
 }
 
 int main()

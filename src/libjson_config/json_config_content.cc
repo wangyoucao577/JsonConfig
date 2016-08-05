@@ -1,5 +1,6 @@
 
 #include <fstream>
+#include <assert.h>
 #include "json_config_content.h"
 
 #define JSON_CONFIG_LOG(type, ...) printf(type, ##__VA_ARGS__)
@@ -248,6 +249,12 @@ bool JsonConfigContent::set_value(const string& key, JsonConfigItemType type, co
         return false;
     }
 
+    if (config_items_[key].empty()) {
+        set_last_error_unsafe(kErrorItemNotExist);
+        pthread_mutex_unlock(&mutex_);
+        return false;
+    }
+
     switch (type)
     {
     case kItemTypeString:
@@ -286,6 +293,7 @@ bool JsonConfigContent::set_value(const string& key, JsonConfigItemType type, co
         config_items_[key] = val.b;
         break;
     default:
+        JSON_CONFIG_ASSERT(0);
         break;
     }
     pthread_mutex_unlock(&mutex_);
