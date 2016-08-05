@@ -20,8 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\json_config.cc" />
+    <ClCompile Include="..\..\src\json_config_content.cc" />
     <ClCompile Include="..\..\src\sample.cc" />
-    <ClCompile Include="json_config_content.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\json\assertions.h" />
@@ -38,7 +38,9 @@
     <ClInclude Include="..\..\include\Pre-built.2\sched.h" />
     <ClInclude Include="..\..\include\Pre-built.2\semaphore.h" />
     <ClInclude Include="..\..\src\json_config.h" />
-    <ClInclude Include="json_config_content.h" />
+    <ClInclude Include="..\..\src\json_config_content.h" />
+    <ClInclude Include="..\..\src\json_config_define.h" />
+    <ClInclude Include="..\..\src\json_config_errors.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{39389F9B-3179-4098-BE28-ABDA0F126EF9}</ProjectGuid>

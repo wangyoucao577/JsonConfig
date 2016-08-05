@@ -23,7 +23,7 @@
     <ClCompile Include="..\..\src\sample.cc">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="json_config_content.cc">
+    <ClCompile Include="..\..\src\json_config_content.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,7 +70,13 @@
     <ClInclude Include="..\..\include\json\writer.h">
       <Filter>headers\json</Filter>
     </ClInclude>
-    <ClInclude Include="json_config_content.h">
+    <ClInclude Include="..\..\src\json_config_content.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\json_config_errors.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\json_config_define.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
