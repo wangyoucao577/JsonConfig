@@ -19,7 +19,7 @@ enum JsonConfigItemType {
     kItemTypeBool,
 };
 
-union JsonConfigNumericValue {
+union Numeric {
     int i;
     int64_t i64;
     double d;
@@ -28,10 +28,11 @@ union JsonConfigNumericValue {
 struct JsonConfigItemValue {
     string s;
     bool b;
-    JsonConfigNumericValue nv;
+    Numeric nv;
 
     JsonConfigItemValue();
 };
+
 
 class JsonConfigContent
 {
