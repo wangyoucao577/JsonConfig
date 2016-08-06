@@ -60,7 +60,6 @@ private:
 private:
     Json::Value config_items_;
     bool initialized_;
-    JsonConfigErrors last_error_code_;
     pthread_mutex_t mutex_;
 
     //<key, default_value> pair. dynamic initialize at the beginning. 

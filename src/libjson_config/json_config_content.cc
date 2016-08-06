@@ -16,8 +16,7 @@ b(false)
 
 JsonConfigContent::JsonConfigContent(string config_file_path) :
     config_file_path_(config_file_path),
-    initialized_(false),
-    last_error_code_(kOK)
+    initialized_(false)
 {
     pthread_mutex_init(&mutex_, NULL);
     pthread_mutex_init(&config_file_mutex_, NULL);
