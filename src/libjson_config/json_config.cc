@@ -70,30 +70,57 @@ JsonConfigErrors JsonConfig::set_value(const string& key, double val)
     return config_content_->set_value(key, kItemTypeDouble, item_val);
 }
 
-bool JsonConfig::get_value(const string& key, string& val)
+JsonConfigErrors JsonConfig::get_value(const string& key, string& val)
 {
-    return config_content_->get_value(key, val);
+    JsonConfigItemValue item_val;
+    JsonConfigErrors err = config_content_->get_value(key, kItemTypeString, item_val);
+    if (err == kOK) {
+        val = item_val.s;
+        return kOK;
+    }
+    return err;
+}
+JsonConfigErrors JsonConfig::get_value(const string& key, bool& val)
+{
+    JsonConfigItemValue item_val;
+    JsonConfigErrors err = config_content_->get_value(key, kItemTypeBool, item_val);
+    if (err == kOK) {
+        val = item_val.b;
+        return kOK;
+    }
+    return err;
+}
+JsonConfigErrors JsonConfig::get_value(const string& key, int&val)
+{
+    JsonConfigItemValue item_val;
+    JsonConfigErrors err = config_content_->get_value(key, kItemTypeInt, item_val);
+    if (err == kOK) {
+        val = item_val.i;
+        return kOK;
+    }
+    return err;
 
 }
-bool JsonConfig::get_value(const string& key, bool& val)
+JsonConfigErrors JsonConfig::get_value_int64(const string& key, int64_t& val)
 {
-    return config_content_->get_value(key, val);
+    JsonConfigItemValue item_val;
+    JsonConfigErrors err = config_content_->get_value(key, kItemTypeInt64, item_val);
+    if (err == kOK) {
+        val = item_val.i64;
+        return kOK;
+    }
+    return err;
 
 }
-bool JsonConfig::get_value(const string& key, int&val)
+JsonConfigErrors JsonConfig::get_value(const string& key, double& val)
 {
-    return config_content_->get_value(key, val);
-
-}
-bool JsonConfig::get_value_int64(const string& key, int64_t& val)
-{
-    return config_content_->get_value(key, val);
-
-}
-bool JsonConfig::get_value(const string& key, double& val)
-{
-    return config_content_->get_value(key, val);
-
+    JsonConfigItemValue item_val;
+    JsonConfigErrors err = config_content_->get_value(key, kItemTypeDouble, item_val);
+    if (err == kOK) {
+        val = item_val.d;
+        return kOK;
+    }
+    return err;
 }
 
 void JsonConfig::get_last_error(JsonConfigErrors& error_code, string& msg)

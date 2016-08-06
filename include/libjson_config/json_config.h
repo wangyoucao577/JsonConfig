@@ -25,15 +25,15 @@ public:
 
     JsonConfigErrors set_value(const string& key, string val);
     JsonConfigErrors set_value(const string& key, bool val);
+    JsonConfigErrors set_value(const string& key, double val);
     JsonConfigErrors set_value(const string& key, int val);
     JsonConfigErrors set_value_int64(const string& key, int64_t val);
-    JsonConfigErrors set_value(const string& key, double val);
 
-    bool get_value(const string& key, string& val);
-    bool get_value(const string& key, bool& val);
-    bool get_value(const string& key, int&val);
-    bool get_value_int64(const string& key, int64_t& val);
-    bool get_value(const string& key, double& val);
+    JsonConfigErrors get_value(const string& key, string& val);
+    JsonConfigErrors get_value(const string& key, bool& val);
+    JsonConfigErrors get_value(const string& key, double& val);
+    JsonConfigErrors get_value(const string& key, int&val);
+    JsonConfigErrors get_value_int64(const string& key, int64_t& val);
 
     void get_last_error(JsonConfigErrors& error_code, string& msg);
 

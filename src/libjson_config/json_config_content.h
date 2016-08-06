@@ -6,6 +6,9 @@
 
 #include "pthread.h"
 
+#define JSON_CONFIG_LOG(type, ...) printf(type, ##__VA_ARGS__)
+#define JSON_CONFIG_ASSERT(cond) assert(cond)
+
 using namespace std;
 
 enum JsonConfigItemType {
@@ -42,12 +45,7 @@ public:
     bool initialize_load();
 
     JsonConfigErrors set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val);
-
-    bool get_value(const string& key, string& val);
-    bool get_value(const string& key, bool& val);
-    bool get_value(const string& key, int&val);
-    bool get_value(const string& key, int64_t& val);
-    bool get_value(const string& key, double& val);
+    JsonConfigErrors get_value(const string& key, JsonConfigItemType type, JsonConfigItemValue val);
 
     void get_last_error(JsonConfigErrors& error_code, string& msg);
 

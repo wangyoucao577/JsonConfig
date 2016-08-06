@@ -2,12 +2,6 @@
 #include <fstream>
 #include <assert.h>
 #include "json_config_content.h"
-
-#define JSON_CONFIG_LOG(type, ...) printf(type, ##__VA_ARGS__)
-#define JSON_CONFIG_ASSERT(cond) assert(cond)
-
-
-
 #include "json_config.h"
 
 
@@ -169,77 +163,66 @@ bool JsonConfigContent::correct_configs(Json::Value& config_items)
     return anything_changed;
 }
 
-bool JsonConfigContent::get_value(const string& key, string& val)
+
+JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, JsonConfigItemValue val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorNotInitialize;
     }
 
-    val = config_items_[key].asString();
-    pthread_mutex_unlock(&mutex_);
-    return true;
-
-}
-bool JsonConfigContent::get_value(const string& key, bool& val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
+    if (config_items_[key].empty()) {
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemNotExist;
     }
 
-    val = config_items_[key].asBool();
-    pthread_mutex_unlock(&mutex_);
-    return true;
-
-}
-bool JsonConfigContent::get_value(const string& key, int&val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
+    switch (type)
+    {
+    case kItemTypeString:
+        if (!config_items_[key].isString()) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorItemNotExist;
+        }
+        val.s = config_items_[key].asString();
+        break;
+    case kItemTypeInt:
+        if (!config_items_[key].isInt()) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorItemNotExist;
+        }
+        val.i = config_items_[key].asInt();
+        break;
+    case kItemTypeInt64:
+        if (!config_items_[key].isInt64()) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorItemNotExist;
+        }
+        val.i64 = config_items_[key].asInt64();
+        break;
+    case kItemTypeDouble:
+        if (!config_items_[key].isDouble()) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorItemNotExist;
+        }
+        val.d = config_items_[key].asDouble();
+        break;
+    case kItemTypeBool:
+        if (!config_items_[key].isBool()) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorItemNotExist;
+        }
+        val.b = config_items_[key].asBool();
+        break;
+    default:
+        JSON_CONFIG_ASSERT(0);
+        break;
     }
 
-    val = config_items_[key].asInt();
     pthread_mutex_unlock(&mutex_);
-    return true;
-
-}
-bool JsonConfigContent::get_value(const string& key, int64_t& val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    val = config_items_[key].asInt64();
-    pthread_mutex_unlock(&mutex_);
-    return true;
-
+    return kOK;
 }
 
-
-bool JsonConfigContent::get_value(const string& key, double& val)
-{
-    pthread_mutex_lock(&mutex_);
-    if (!initialized_) {
-        set_last_error_unsafe(kErrorNotInitialize);
-        pthread_mutex_unlock(&mutex_);
-        return false;
-    }
-
-    val = config_items_[key].asDouble();
-    pthread_mutex_unlock(&mutex_);
-    return true;
-}
 JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val)
 {
     pthread_mutex_lock(&mutex_);
