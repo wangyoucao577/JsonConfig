@@ -49,8 +49,13 @@ public:
 
 private:
 
-    bool correct_configs(Json::Value& config_items);
-    JsonConfigErrors save();
+    bool validate_configs(Json::Value& config_items);
+
+    Json::Value copy_config_items();
+
+    //config file operations
+    JsonConfigErrors load(Json::Value& out);
+    JsonConfigErrors save(const Json::Value& in);
 
 private:
     Json::Value config_items_;
@@ -67,6 +72,5 @@ private:
 
     string config_file_path_;
     pthread_mutex_t config_file_mutex_;
-
 };
 

@@ -111,7 +111,7 @@ JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double
     return kOK;
 }
 
-bool JsonConfigContent::correct_configs(Json::Value& config_items)
+bool JsonConfigContent::validate_configs(Json::Value& config_items)
 {
     bool anything_changed = false;
 
@@ -153,6 +153,13 @@ bool JsonConfigContent::correct_configs(Json::Value& config_items)
     return anything_changed;
 }
 
+Json::Value JsonConfigContent::copy_config_items()
+{
+    pthread_mutex_lock(&mutex_);
+    Json::Value val = config_items_;
+    pthread_mutex_unlock(&mutex_);
+    return val;
+}
 
 JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, JsonConfigItemValue val)
 {
@@ -269,7 +276,7 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
     }
     pthread_mutex_unlock(&mutex_);
 
-    return save();
+    return save(copy_config_items());
 }
 
 JsonConfigErrors JsonConfigContent::initialize_load()
@@ -282,76 +289,71 @@ JsonConfigErrors JsonConfigContent::initialize_load()
     initialized_ = true;
     pthread_mutex_unlock(&mutex_);
 
+    bool require_save = false;
 
-    bool need_save_to_file = false;
-    Json::Value new_config_items;
-
-    // read all from file
-    pthread_mutex_lock(&config_file_mutex_);
-    ifstream ifs(config_file_path_.c_str(), ios::binary);
-    if (!ifs) {
-        JSON_CONFIG_LOG("%s config file %s in open failed, we'll create a new one.\n", __FUNCTION__, config_file_path_.c_str());
-
-        correct_configs(new_config_items);
-        need_save_to_file = true;
+    Json::Value load_config_items;
+    JsonConfigErrors err = load(load_config_items);
+    if (    (err != kOK)
+        ||  (validate_configs(load_config_items))) {
+        //load error or anything changed, require save to file
+        require_save = true;
     }
-    else {
-        //read content from file
-        string config_str;
-        ifs.seekg(0, std::ios::end);
-        config_str.reserve(ifs.tellg());
-        ifs.seekg(0, std::ios::beg);
-        config_str.assign((std::istreambuf_iterator<char>(ifs)),
-            std::istreambuf_iterator<char>());
-        ifs.close();
 
-        // parse from file and check whether valid 
-        Json::Reader config_reader;
-        if (!config_reader.parse(config_str, new_config_items)) {
-            JSON_CONFIG_LOG("%s config parse failed, restore to default.\n", __FUNCTION__);
-
-            correct_configs(new_config_items);
-            need_save_to_file = true;
-        }
-        else if (correct_configs(new_config_items)) {
-            need_save_to_file = true;
-        }
-    }
-    pthread_mutex_unlock(&config_file_mutex_);
-
+    //initialize config items
     pthread_mutex_lock(&mutex_);
-    config_items_ = new_config_items;
+    config_items_ = load_config_items;
     pthread_mutex_unlock(&mutex_);
 
-    JsonConfigErrors err = kOK;
-    if (need_save_to_file) {
-        err = save();
+    err = kOK;
+    if (require_save) {
+        err = save(load_config_items);
     }
 
     return err;
 }
 
-JsonConfigErrors JsonConfigContent::save()
+JsonConfigErrors JsonConfigContent::save(const Json::Value& in)
 {
-    pthread_mutex_lock(&mutex_);
-    Json::Value copy_config_items = config_items_;
-    pthread_mutex_unlock(&mutex_);
-
     pthread_mutex_lock(&config_file_mutex_);
     ofstream ofs(config_file_path_.c_str(), ios::binary | ios::trunc);
     if (!ofs)
     {
-        JSON_CONFIG_LOG("%s config file %s out open failed.\n", __FUNCTION__, config_file_path_.c_str());
         pthread_mutex_unlock(&config_file_mutex_);
         return kErrorOpenFileWithWriteFailed;
     }
     else {
         Json::StyledStreamWriter stream_writer;
-        stream_writer.write(ofs, copy_config_items);
+        stream_writer.write(ofs, in);
         ofs.close();
-
-        JSON_CONFIG_LOG("%s config file %s saved.\n", __FUNCTION__, config_file_path_.c_str());
     }
     pthread_mutex_unlock(&config_file_mutex_);
+    return kOK;
+}
+
+JsonConfigErrors JsonConfigContent::load(Json::Value& out)
+{
+    // read all from file
+    pthread_mutex_lock(&config_file_mutex_);
+    ifstream ifs(config_file_path_.c_str(), ios::binary);
+    if (!ifs) {
+        pthread_mutex_unlock(&config_file_mutex_);
+        return kErrorOpenFileWithReadFailed;
+    }
+
+    //read content from file
+    string config_str;
+    ifs.seekg(0, std::ios::end);
+    config_str.reserve(ifs.tellg());
+    ifs.seekg(0, std::ios::beg);
+    config_str.assign((std::istreambuf_iterator<char>(ifs)),
+        std::istreambuf_iterator<char>());
+    ifs.close();
+    pthread_mutex_unlock(&config_file_mutex_);
+
+    Json::Reader config_reader;
+    if (!config_reader.parse(config_str, out)) {
+        return kErrorJsonParseFailed;
+    }
+
     return kOK;
 }
