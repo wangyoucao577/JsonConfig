@@ -11,6 +11,33 @@ b(false)
     memset(&nv, 0, sizeof(nv));
 }
 
+JsonConfigNumericValues::JsonConfigNumericValues()
+{
+    memset(&default, 0, sizeof(default));
+    memset(&low, 0, sizeof(low));
+    memset(&hi, 0, sizeof(hi));
+}
+void JsonConfigNumericValues::set_int(int def, int low, int hi)
+{
+    this->default.i = def;
+    this->low.i = low;
+    this->hi.i = hi;
+}
+void JsonConfigNumericValues::set_int64(int64_t def, int64_t low, int64_t hi)
+{
+    this->default.i64 = def;
+    this->low.i64 = low;
+    this->hi.i64 = hi;
+}
+void JsonConfigNumericValues::set_double(double def, double low, double hi)
+{
+    this->default.d = def;
+    this->low.d = low;
+    this->hi.d = hi;
+
+}
+
+
 JsonConfigContent::JsonConfigContent(string config_file_path) :
     config_file_path_(config_file_path),
     initialized_(false)
@@ -66,7 +93,9 @@ JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int defau
         return kErrorItemsInitialized;
     }
 
-    pair<map<string, int>::iterator, bool> ret = key_int_items_.insert(map<string, int>::value_type(key, default_value));
+    JsonConfigNumericValues val;
+    val.set_int(default_value, low, hi);
+    pair<map<string, JsonConfigNumericValues>::iterator, bool> ret = key_int_items_.insert(map<string, JsonConfigNumericValues>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
         return kErrorItemExist;
@@ -82,7 +111,9 @@ JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t
         return kErrorItemsInitialized;
     }
 
-    pair<map<string, int64_t>::iterator, bool> ret = key_int64_items_.insert(map<string, int64_t>::value_type(key, default_value));
+    JsonConfigNumericValues val;
+    val.set_int64(default_value, low, hi);
+    pair<map<string, JsonConfigNumericValues>::iterator, bool> ret = key_int64_items_.insert(map<string, JsonConfigNumericValues>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
         return kErrorItemExist;
@@ -98,7 +129,9 @@ JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double
         return kErrorItemsInitialized;
     }
 
-    pair<map<string, double>::iterator, bool> ret = key_double_items_.insert(map<string, double>::value_type(key, default_value));
+    JsonConfigNumericValues val;
+    val.set_double(default_value, low, hi);
+    pair<map<string, JsonConfigNumericValues>::iterator, bool> ret = key_double_items_.insert(map<string, JsonConfigNumericValues>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
         return kErrorItemExist;
@@ -125,23 +158,23 @@ bool JsonConfigContent::validate_configs(Json::Value& config_items)
         }
     }
 
-    for (map<string, int>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
+    for (map<string, JsonConfigNumericValues>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isInt()) {
-            config_items[it->first] = it->second;
+            config_items[it->first] = it->second.default.i;
             anything_changed = true;
         }
     }
 
-    for (map<string, int64_t>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
+    for (map<string, JsonConfigNumericValues>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isInt64()) {
-            config_items[it->first] = it->second;
+            config_items[it->first] = it->second.default.i64;
             anything_changed = true;
         }
     }
 
-    for (map <string, double> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
+    for (map <string, JsonConfigNumericValues> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isDouble()) {
-            config_items[it->first] = it->second;
+            config_items[it->first] = it->second.default.d;
             anything_changed = true;
         }
     }

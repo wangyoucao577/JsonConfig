@@ -33,6 +33,17 @@ struct JsonConfigItemValue {
     JsonConfigItemValue();
 };
 
+struct JsonConfigNumericValues {
+    Numeric default;
+    Numeric low;
+    Numeric hi;
+
+    JsonConfigNumericValues();
+    void set_int(int defalut, int low, int hi);
+    void set_int64(int64_t default, int64_t low, int64_t hi);
+    void set_double(double default, double low, double hi);
+};
+
 
 class JsonConfigContent
 {
@@ -70,9 +81,9 @@ private:
     //<key, default_value> pair. dynamic initialize at the beginning. 
     map<string, string> key_string_items_;
     map<string, bool> key_bool_items_;
-    map<string, int> key_int_items_;
-    map<string, int64_t> key_int64_items_;
-    map<string, double> key_double_items_;
+    map<string, JsonConfigNumericValues> key_int_items_;
+    map<string, JsonConfigNumericValues> key_int64_items_;
+    map<string, JsonConfigNumericValues> key_double_items_;
 
     string config_file_path_;
     pthread_mutex_t config_file_mutex_;
