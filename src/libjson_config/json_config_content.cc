@@ -182,12 +182,19 @@ bool JsonConfigContent::validate_configs(Json::Value& config_items)
     return anything_changed;
 }
 
-Json::Value JsonConfigContent::copy_config_items()
+Json::Value JsonConfigContent::get_config_items()
 {
     pthread_mutex_lock(&mutex_);
     Json::Value val = config_items_;
     pthread_mutex_unlock(&mutex_);
     return val;
+}
+
+void JsonConfigContent::set_config_items(const Json::Value& config_items)
+{
+    pthread_mutex_lock(&mutex_);
+    config_items_ = config_items;
+    pthread_mutex_unlock(&mutex_);
 }
 
 JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, ValuesSet val)
@@ -305,7 +312,7 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
     }
     pthread_mutex_unlock(&mutex_);
 
-    return save(copy_config_items());
+    return save(get_config_items());
 }
 
 JsonConfigErrors JsonConfigContent::initialize_load()
@@ -332,9 +339,7 @@ JsonConfigErrors JsonConfigContent::initialize_load()
     }
 
     //initialize config items
-    pthread_mutex_lock(&mutex_);
-    config_items_ = load_config_items;
-    pthread_mutex_unlock(&mutex_);
+    set_config_items(load_config_items);
 
     err = kOK;
     if (require_save) {

@@ -67,7 +67,8 @@ private:
 
     bool validate_configs(Json::Value& config_items);
 
-    Json::Value copy_config_items();
+    Json::Value get_config_items();
+    void set_config_items(const Json::Value& config_items);
 
     //config file operations
     JsonConfigErrors load(Json::Value& out);
