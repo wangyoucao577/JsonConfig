@@ -33,7 +33,7 @@ JsonConfigErrors JsonConfig::insert_item(const string& key, double default_value
     return config_content_->insert_item_double(key, default_value, low, hi);
 }
 
-bool JsonConfig::initialize_load()
+JsonConfigErrors JsonConfig::initialize_load()
 {
     return config_content_->initialize_load();
 }
@@ -122,8 +122,3 @@ JsonConfigErrors JsonConfig::get_value(const string& key, double& val)
     return err;
 }
 
-void JsonConfig::get_last_error(JsonConfigErrors& error_code, string& msg)
-{
-    return config_content_->get_last_error(error_code, msg);
-
-}

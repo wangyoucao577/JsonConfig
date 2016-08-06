@@ -272,13 +272,12 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
     return save();
 }
 
-bool JsonConfigContent::initialize_load()
+JsonConfigErrors JsonConfigContent::initialize_load()
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) { //only allow to invoke once.
-        set_last_error_unsafe(kErrorMultipleInitialize);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorMultipleInitialize;
     }
     initialized_ = true;
     pthread_mutex_unlock(&mutex_);
@@ -329,7 +328,7 @@ bool JsonConfigContent::initialize_load()
         err = save();
     }
 
-    return kOK == err ? true : false;
+    return err;
 }
 
 JsonConfigErrors JsonConfigContent::save()
@@ -355,23 +354,4 @@ JsonConfigErrors JsonConfigContent::save()
     }
     pthread_mutex_unlock(&config_file_mutex_);
     return kOK;
-}
-
-void JsonConfigContent::set_last_error_unsafe(const JsonConfigErrors& error_code)
-{
-    last_error_code_ = error_code;
-}
-
-void JsonConfigContent::set_last_error(const JsonConfigErrors& error_code)
-{
-    pthread_mutex_lock(&mutex_);
-    last_error_code_ = error_code;
-    pthread_mutex_unlock(&mutex_);
-}
-
-void JsonConfigContent::get_last_error(JsonConfigErrors& error_code, string& msg)
-{
-    pthread_mutex_lock(&mutex_);
-    error_code = last_error_code_;
-    pthread_mutex_unlock(&mutex_);
 }

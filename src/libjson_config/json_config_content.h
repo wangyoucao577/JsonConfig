@@ -42,16 +42,12 @@ public:
     JsonConfigErrors insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi);
     JsonConfigErrors insert_item_double(const string& key, double default_value, double low, double hi);
 
-    bool initialize_load();
+    JsonConfigErrors initialize_load();
 
     JsonConfigErrors set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val);
     JsonConfigErrors get_value(const string& key, JsonConfigItemType type, JsonConfigItemValue val);
 
-    void get_last_error(JsonConfigErrors& error_code, string& msg);
-
 private:
-    void set_last_error_unsafe(const JsonConfigErrors& error_code);
-    void set_last_error(const JsonConfigErrors& error_code);
 
     bool correct_configs(Json::Value& config_items);
     JsonConfigErrors save();
