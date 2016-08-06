@@ -6,12 +6,9 @@
 
 
 JsonConfigItemValue::JsonConfigItemValue() :
-i(0),
-i64(0LL),
-d(0.0),
 b(false)
 {
-
+    memset(&nv, 0, sizeof(nv));
 }
 
 JsonConfigContent::JsonConfigContent(string config_file_path) :
@@ -187,21 +184,21 @@ JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemT
             pthread_mutex_unlock(&mutex_);
             return kErrorItemNotExist;
         }
-        val.i = config_items_[key].asInt();
+        val.nv.i = config_items_[key].asInt();
         break;
     case kItemTypeInt64:
         if (!config_items_[key].isInt64()) {
             pthread_mutex_unlock(&mutex_);
             return kErrorItemNotExist;
         }
-        val.i64 = config_items_[key].asInt64();
+        val.nv.i64 = config_items_[key].asInt64();
         break;
     case kItemTypeDouble:
         if (!config_items_[key].isDouble()) {
             pthread_mutex_unlock(&mutex_);
             return kErrorItemNotExist;
         }
-        val.d = config_items_[key].asDouble();
+        val.nv.d = config_items_[key].asDouble();
         break;
     case kItemTypeBool:
         if (!config_items_[key].isBool()) {
@@ -242,25 +239,25 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
         config_items_[key] = val.s;
         break;
     case kItemTypeInt:
-        if (config_items_[key].asInt() == val.i) {
+        if (config_items_[key].asInt() == val.nv.i) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
-        config_items_[key] = val.i;
+        config_items_[key] = val.nv.i;
         break;
     case kItemTypeInt64:
-        if (config_items_[key].asInt64() == val.i64) {
+        if (config_items_[key].asInt64() == val.nv.i64) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
-        config_items_[key] = val.i64;
+        config_items_[key] = val.nv.i64;
         break;
     case kItemTypeDouble:
-        if (config_items_[key].asDouble() == val.d) {
+        if (config_items_[key].asDouble() == val.nv.d) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
-        config_items_[key] = val.d;
+        config_items_[key] = val.nv.d;
         break;
     case kItemTypeBool:
         if (config_items_[key].asBool() == val.b) {
@@ -292,9 +289,12 @@ JsonConfigErrors JsonConfigContent::initialize_load()
 
     Json::Value load_config_items;
     JsonConfigErrors err = load(load_config_items);
-    if (    (err != kOK)
-        ||  (validate_configs(load_config_items))) {
-        //load error or anything changed, require save to file
+    if (err != kOK){
+        //load error, require save to file
+        require_save = true;
+    }
+    if (validate_configs(load_config_items)) {
+        //anything changed, require save to file
         require_save = true;
     }
 

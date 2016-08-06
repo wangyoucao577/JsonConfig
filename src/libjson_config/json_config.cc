@@ -53,19 +53,19 @@ JsonConfigErrors JsonConfig::set_value(const string& key, bool val)
 JsonConfigErrors JsonConfig::set_value(const string& key, int val)
 {
     JsonConfigItemValue item_val;
-    item_val.i = val;
+    item_val.nv.i = val;
     return config_content_->set_value(key, kItemTypeInt, item_val);
 }
 JsonConfigErrors JsonConfig::set_value_int64(const string& key, int64_t val)
 {
     JsonConfigItemValue item_val;
-    item_val.i64 = val;
+    item_val.nv.i64 = val;
     return config_content_->set_value(key, kItemTypeInt64, item_val);
 }
 JsonConfigErrors JsonConfig::set_value(const string& key, double val)
 {
     JsonConfigItemValue item_val;
-    item_val.d = val;
+    item_val.nv.d = val;
     return config_content_->set_value(key, kItemTypeDouble, item_val);
 }
 
@@ -94,7 +94,7 @@ JsonConfigErrors JsonConfig::get_value(const string& key, int&val)
     JsonConfigItemValue item_val;
     JsonConfigErrors err = config_content_->get_value(key, kItemTypeInt, item_val);
     if (err == kOK) {
-        val = item_val.i;
+        val = item_val.nv.i;
         return kOK;
     }
     return err;
@@ -105,7 +105,7 @@ JsonConfigErrors JsonConfig::get_value_int64(const string& key, int64_t& val)
     JsonConfigItemValue item_val;
     JsonConfigErrors err = config_content_->get_value(key, kItemTypeInt64, item_val);
     if (err == kOK) {
-        val = item_val.i64;
+        val = item_val.nv.i64;
         return kOK;
     }
     return err;
@@ -116,7 +116,7 @@ JsonConfigErrors JsonConfig::get_value(const string& key, double& val)
     JsonConfigItemValue item_val;
     JsonConfigErrors err = config_content_->get_value(key, kItemTypeDouble, item_val);
     if (err == kOK) {
-        val = item_val.d;
+        val = item_val.nv.d;
         return kOK;
     }
     return err;
