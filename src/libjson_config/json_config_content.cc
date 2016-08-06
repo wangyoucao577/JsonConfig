@@ -30,95 +30,85 @@ JsonConfigContent::~JsonConfigContent()
     pthread_mutex_destroy(&config_file_mutex_);
 }
 
-bool JsonConfigContent::insert_config_item(const string& key, string default_value)
+JsonConfigErrors JsonConfigContent::insert_item_string(const string& key, string default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
-        set_last_error_unsafe(kErrorItemsInitialized);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemsInitialized;
     }
 
     pair<map<string, string>::iterator, bool> ret = key_string_items_.insert(map<string, string>::value_type(key, default_value));
     if (!ret.second) {
-        set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
-    return true;
+    return kOK;
 }
-bool JsonConfigContent::insert_config_item(const string& key, bool default_value)
+JsonConfigErrors JsonConfigContent::insert_item_bool(const string& key, bool default_value)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
-        set_last_error_unsafe(kErrorItemsInitialized);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemsInitialized;
     }
 
     pair<map<string, bool>::iterator, bool> ret = key_bool_items_.insert(map<string, bool>::value_type(key, default_value));
     if (!ret.second) {
-        set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
-    return true;
+    return kOK;
 }
-bool JsonConfigContent::insert_config_item(const string& key, int default_value)
+JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int default_value, int low, int hi)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
-        set_last_error_unsafe(kErrorItemsInitialized);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemsInitialized;
     }
 
     pair<map<string, int>::iterator, bool> ret = key_int_items_.insert(map<string, int>::value_type(key, default_value));
     if (!ret.second) {
-        set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
-    return true;
+    return kOK;
 }
-bool JsonConfigContent::insert_config_item(const string& key, int64_t default_value)
+JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
-        set_last_error_unsafe(kErrorItemsInitialized);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemsInitialized;
     }
 
     pair<map<string, int64_t>::iterator, bool> ret = key_int64_items_.insert(map<string, int64_t>::value_type(key, default_value));
     if (!ret.second) {
-        set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
-    return true;
+    return kOK;
 }
-bool JsonConfigContent::insert_config_item(const string& key, double default_value)
+JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double default_value, double low, double hi)
 {
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
-        set_last_error_unsafe(kErrorItemsInitialized);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemsInitialized;
     }
 
     pair<map<string, double>::iterator, bool> ret = key_double_items_.insert(map<string, double>::value_type(key, default_value));
     if (!ret.second) {
-        set_last_error_unsafe(kErrorItemExist);
         pthread_mutex_unlock(&mutex_);
-        return false;
+        return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
-    return true;
+    return kOK;
 }
 
 bool JsonConfigContent::correct_configs(Json::Value& config_items)

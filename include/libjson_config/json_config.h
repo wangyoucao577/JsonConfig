@@ -14,11 +14,11 @@ public:
     ~JsonConfig();
     
 public:
-    bool insert_item(const string& key, string default_value);
-    bool insert_item(const string& key, bool default_value);
-    bool insert_item(const string& key, double default_value);
-    bool insert_item(const string& key, int default_value, int low, int hi);
-    bool insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi);
+    JsonConfigErrors insert_item(const string& key, string default_value);
+    JsonConfigErrors insert_item(const string& key, bool default_value);
+    JsonConfigErrors insert_item(const string& key, double default_value, double low, double hi);
+    JsonConfigErrors insert_item(const string& key, int default_value, int low, int hi);
+    JsonConfigErrors insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi);
 
 
     bool initialize_load();

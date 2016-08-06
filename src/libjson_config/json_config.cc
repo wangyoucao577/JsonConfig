@@ -12,26 +12,25 @@ JsonConfig::~JsonConfig()
 
 }
 
-bool JsonConfig::insert_item(const string& key, string default_value)
+JsonConfigErrors JsonConfig::insert_item(const string& key, string default_value)
 {
-    return config_content_->insert_config_item(key, default_value);
+    return config_content_->insert_item_string(key, default_value);
 }
-bool JsonConfig::insert_item(const string& key, bool default_value)
+JsonConfigErrors JsonConfig::insert_item(const string& key, bool default_value)
 {
-    return config_content_->insert_config_item(key, default_value);
-
+    return config_content_->insert_item_bool(key, default_value);
 }
-bool JsonConfig::insert_item(const string& key, int default_value, int low, int hi)
+JsonConfigErrors JsonConfig::insert_item(const string& key, int default_value, int low, int hi)
 {
-    return config_content_->insert_config_item(key, default_value);
+    return config_content_->insert_item_int(key, default_value, low, hi);
 }
-bool JsonConfig::insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi)
+JsonConfigErrors JsonConfig::insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi)
 {
-    return config_content_->insert_config_item(key, default_value);
+    return config_content_->insert_item_int64(key, default_value, low, hi);
 }
-bool JsonConfig::insert_item(const string& key, double default_value)
+JsonConfigErrors JsonConfig::insert_item(const string& key, double default_value, double low, double hi)
 {
-    return config_content_->insert_config_item(key, default_value);
+    return config_content_->insert_item_double(key, default_value, low, hi);
 }
 
 bool JsonConfig::initialize_load()

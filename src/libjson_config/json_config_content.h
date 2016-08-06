@@ -36,11 +36,11 @@ public:
     ~JsonConfigContent();
 
 public:
-    bool insert_config_item(const string& key, string default_value);
-    bool insert_config_item(const string& key, bool default_value);
-    bool insert_config_item(const string& key, int default_value);
-    bool insert_config_item(const string& key, int64_t default_value);
-    bool insert_config_item(const string& key, double default_value);
+    JsonConfigErrors insert_item_string(const string& key, string default_value);
+    JsonConfigErrors insert_item_bool(const string& key, bool default_value);
+    JsonConfigErrors insert_item_int(const string& key, int default_value, int low, int hi);
+    JsonConfigErrors insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi);
+    JsonConfigErrors insert_item_double(const string& key, double default_value, double low, double hi);
 
     bool initialize_load();
 
