@@ -5,31 +5,31 @@
 #include "json_config.h"
 
 
-JsonConfigItemValue::JsonConfigItemValue() :
+ValuesSet::ValuesSet() :
 b(false)
 {
     memset(&nv, 0, sizeof(nv));
 }
 
-JsonConfigNumericValues::JsonConfigNumericValues()
+NumericScope::NumericScope()
 {
     memset(&default, 0, sizeof(default));
     memset(&low, 0, sizeof(low));
     memset(&hi, 0, sizeof(hi));
 }
-void JsonConfigNumericValues::set_int(int def, int low, int hi)
+void NumericScope::set_int(int def, int low, int hi)
 {
     this->default.i = def;
     this->low.i = low;
     this->hi.i = hi;
 }
-void JsonConfigNumericValues::set_int64(int64_t def, int64_t low, int64_t hi)
+void NumericScope::set_int64(int64_t def, int64_t low, int64_t hi)
 {
     this->default.i64 = def;
     this->low.i64 = low;
     this->hi.i64 = hi;
 }
-void JsonConfigNumericValues::set_double(double def, double low, double hi)
+void NumericScope::set_double(double def, double low, double hi)
 {
     this->default.d = def;
     this->low.d = low;
@@ -93,9 +93,9 @@ JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int defau
         return kErrorItemsInitialized;
     }
 
-    JsonConfigNumericValues val;
+    NumericScope val;
     val.set_int(default_value, low, hi);
-    pair<map<string, JsonConfigNumericValues>::iterator, bool> ret = key_int_items_.insert(map<string, JsonConfigNumericValues>::value_type(key, val));
+    pair<map<string, NumericScope>::iterator, bool> ret = key_int_items_.insert(map<string, NumericScope>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
         return kErrorItemExist;
@@ -111,9 +111,9 @@ JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t
         return kErrorItemsInitialized;
     }
 
-    JsonConfigNumericValues val;
+    NumericScope val;
     val.set_int64(default_value, low, hi);
-    pair<map<string, JsonConfigNumericValues>::iterator, bool> ret = key_int64_items_.insert(map<string, JsonConfigNumericValues>::value_type(key, val));
+    pair<map<string, NumericScope>::iterator, bool> ret = key_int64_items_.insert(map<string, NumericScope>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
         return kErrorItemExist;
@@ -129,9 +129,9 @@ JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double
         return kErrorItemsInitialized;
     }
 
-    JsonConfigNumericValues val;
+    NumericScope val;
     val.set_double(default_value, low, hi);
-    pair<map<string, JsonConfigNumericValues>::iterator, bool> ret = key_double_items_.insert(map<string, JsonConfigNumericValues>::value_type(key, val));
+    pair<map<string, NumericScope>::iterator, bool> ret = key_double_items_.insert(map<string, NumericScope>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
         return kErrorItemExist;
@@ -158,21 +158,21 @@ bool JsonConfigContent::validate_configs(Json::Value& config_items)
         }
     }
 
-    for (map<string, JsonConfigNumericValues>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
+    for (map<string, NumericScope>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isInt()) {
             config_items[it->first] = it->second.default.i;
             anything_changed = true;
         }
     }
 
-    for (map<string, JsonConfigNumericValues>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
+    for (map<string, NumericScope>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isInt64()) {
             config_items[it->first] = it->second.default.i64;
             anything_changed = true;
         }
     }
 
-    for (map <string, JsonConfigNumericValues> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
+    for (map <string, NumericScope> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isDouble()) {
             config_items[it->first] = it->second.default.d;
             anything_changed = true;
@@ -190,7 +190,7 @@ Json::Value JsonConfigContent::copy_config_items()
     return val;
 }
 
-JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, JsonConfigItemValue val)
+JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, ValuesSet val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -249,7 +249,7 @@ JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemT
     return kOK;
 }
 
-JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val)
+JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemType type, const ValuesSet& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {

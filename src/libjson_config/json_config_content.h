@@ -25,20 +25,20 @@ union Numeric {
     double d;
 };
 
-struct JsonConfigItemValue {
+struct ValuesSet {
     string s;
     bool b;
     Numeric nv;
 
-    JsonConfigItemValue();
+    ValuesSet();
 };
 
-struct JsonConfigNumericValues {
+struct NumericScope {
     Numeric default;
     Numeric low;
     Numeric hi;
 
-    JsonConfigNumericValues();
+    NumericScope();
     void set_int(int defalut, int low, int hi);
     void set_int64(int64_t default, int64_t low, int64_t hi);
     void set_double(double default, double low, double hi);
@@ -60,8 +60,8 @@ public:
 
     JsonConfigErrors initialize_load();
 
-    JsonConfigErrors set_value(const string& key, JsonConfigItemType type, const JsonConfigItemValue& val);
-    JsonConfigErrors get_value(const string& key, JsonConfigItemType type, JsonConfigItemValue val);
+    JsonConfigErrors set_value(const string& key, JsonConfigItemType type, const ValuesSet& val);
+    JsonConfigErrors get_value(const string& key, JsonConfigItemType type, ValuesSet val);
 
 private:
 
@@ -81,9 +81,9 @@ private:
     //<key, default_value> pair. dynamic initialize at the beginning. 
     map<string, string> key_string_items_;
     map<string, bool> key_bool_items_;
-    map<string, JsonConfigNumericValues> key_int_items_;
-    map<string, JsonConfigNumericValues> key_int64_items_;
-    map<string, JsonConfigNumericValues> key_double_items_;
+    map<string, NumericScope> key_int_items_;
+    map<string, NumericScope> key_int64_items_;
+    map<string, NumericScope> key_double_items_;
 
     string config_file_path_;
     pthread_mutex_t config_file_mutex_;
