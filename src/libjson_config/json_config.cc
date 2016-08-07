@@ -120,6 +120,57 @@ JsonConfigErrors JsonConfig::get_value(const string& key, double& val)
     return err;
 }
 
+string JsonConfig::value_string(const string& key)
+{
+    string out_value;
+    JsonConfigErrors err = get_value(key, out_value);
+    if (err != kOK) {
+        JSON_CONFIG_ASSERT(0);
+        return "";
+    }
+    return out_value;
+}
+bool JsonConfig::value_bool(const string& key)
+{
+    bool out_value;
+    JsonConfigErrors err = get_value(key, out_value);
+    if (err != kOK) {
+        JSON_CONFIG_ASSERT(0);
+        return false;
+    }
+    return out_value;
+}
+double JsonConfig::value_double(const string& key)
+{
+    double out_value;
+    JsonConfigErrors err = get_value(key, out_value);
+    if (err != kOK) {
+        JSON_CONFIG_ASSERT(0);
+        return 0.0;
+    }
+    return out_value;
+}
+int JsonConfig::value_int(const string& key)
+{
+    int out_value;
+    JsonConfigErrors err = get_value(key, out_value);
+    if (err != kOK) {
+        JSON_CONFIG_ASSERT(0);
+        return 0;
+    }
+    return out_value;
+}
+int64_t JsonConfig::value_int64(const string& key)
+{
+    int64_t out_value;
+    JsonConfigErrors err = get_value_int64(key, out_value);
+    if (err != kOK) {
+        JSON_CONFIG_ASSERT(0);
+        return 0LL;
+    }
+    return out_value;
+}
+
 string JsonConfig::dump()
 {
     return config_content_->dump();

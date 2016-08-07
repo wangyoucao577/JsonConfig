@@ -34,6 +34,12 @@ public:
     JsonConfigErrors get_value(const string& key, int&val);
     JsonConfigErrors get_value_int64(const string& key, int64_t& val);
 
+    string value_string(const string& key);
+    bool value_bool(const string& key);
+    double value_double(const string& key);
+    int value_int(const string& key);
+    int64_t value_int64(const string& key);
+
     string dump();
     int size();
 

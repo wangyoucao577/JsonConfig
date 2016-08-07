@@ -1,5 +1,6 @@
 #pragma once
 
+#include <assert.h>
 #include "json/json.h"
 #include "json_config_define.h"
 #include "json_config_errors.h"

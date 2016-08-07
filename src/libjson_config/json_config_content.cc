@@ -1,6 +1,5 @@
 
 #include <fstream>
-#include <assert.h>
 #include "json_config_content.h"
 #include "json_config.h"
 
