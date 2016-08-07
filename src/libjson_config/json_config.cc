@@ -40,14 +40,12 @@ JsonConfigErrors JsonConfig::initialize_load()
 
 JsonConfigErrors JsonConfig::set_value(const string& key, string val)
 {
-    ValuesSet item_val;
-    item_val.s = val;
+    ValuesSet item_val(val);
     return config_content_->set_value(key, kItemTypeString, item_val);
 }
 JsonConfigErrors JsonConfig::set_value(const string& key, bool val)
 {
-    ValuesSet item_val;
-    item_val.b = val;
+    ValuesSet item_val(val);
     return config_content_->set_value(key, kItemTypeBool, item_val);
 }
 JsonConfigErrors JsonConfig::set_value(const string& key, int val)

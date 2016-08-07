@@ -10,6 +10,17 @@ b(false)
 {
     memset(&nv, 0, sizeof(nv));
 }
+ValuesSet::ValuesSet(string val) : 
+s(val),
+b(false)
+{
+    memset(&nv, 0, sizeof(nv));
+}
+ValuesSet::ValuesSet(bool val) :
+b(val)
+{
+    memset(&nv, 0, sizeof(nv));
+}
 
 NumericScope::NumericScope()
 {

@@ -31,6 +31,8 @@ struct ValuesSet {
     Numeric nv;
 
     ValuesSet();
+    ValuesSet(string val);
+    ValuesSet(bool val);
 };
 
 struct NumericScope {
