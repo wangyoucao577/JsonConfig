@@ -16,6 +16,10 @@ void json_config_sample()
     jc->insert_item_int64("int64_key_9", 15LL, 0LL, 1111111111111111111LL);
     jc->insert_item("double_key_10", 10.2, 0.1, 32423432.32);
 
+    jc->insert_item("int_key_without_range", 10);
+    jc->insert_item("double_key_without_range", 101.2);
+    jc->insert_item_int64("int64_key_without_range", 110L);
+
     //从配置文件读取
     jc->initialize_load();
 
