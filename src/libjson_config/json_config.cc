@@ -33,7 +33,7 @@ JsonConfigErrors JsonConfig::insert_item(const string& key, double default_value
     return config_content_->insert_item_double(key, default_value, low, hi);
 }
 
-JsonConfigErrors JsonConfig::initialize_load()
+JsonConfigErrors JsonConfig::initialize()
 {
     return config_content_->initialize_load();
 }
@@ -120,3 +120,12 @@ JsonConfigErrors JsonConfig::get_value(const string& key, double& val)
     return err;
 }
 
+string JsonConfig::dump()
+{
+    return config_content_->dump();
+}
+
+int JsonConfig::size()
+{
+    return config_content_->size();
+}

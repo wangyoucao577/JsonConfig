@@ -398,6 +398,11 @@ JsonConfigErrors JsonConfigContent::initialize_load()
         JSON_CONFIG_ASSERT(0);
         return kErrorMultipleInitialize;
     }
+    if (key_count_unsafe() <= 0) {
+        pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
+        return kErrorNoItem;
+    }
     initialize_called = true;
     pthread_mutex_unlock(&mutex_);
 
@@ -507,4 +512,39 @@ bool JsonConfigContent::is_key_exist_unsafe(const string& key)
         return false;
     }
     return true;
+}
+
+string JsonConfigContent::dump()
+{
+    pthread_mutex_lock(&mutex_);
+    if (!initialized_) {
+        pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
+        return "";
+    }
+    pthread_mutex_unlock(&mutex_);
+
+    return get_config_items().toStyledString();
+}
+
+int JsonConfigContent::size()
+{
+    pthread_mutex_lock(&mutex_);
+    if (!initialized_) {
+        pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
+        return 0;
+    }
+    int key_count = key_count_unsafe();
+    pthread_mutex_unlock(&mutex_);
+
+    return key_count;
+}
+
+int JsonConfigContent::key_count_unsafe()
+{
+    int key_count = (key_string_items_.size() + key_int_items_.size()
+        + key_int64_items_.size() + key_double_items_.size()
+        + key_bool_items_.size());
+    return key_count;
 }

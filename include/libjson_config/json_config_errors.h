@@ -6,6 +6,7 @@ enum JsonConfigErrors {
     kErrorOffset = 10001,
 
     kErrorNotInitialize,
+    kErrorNoItem,
     kErrorItemsInitialized,
     kErrorMultipleInitialize,
     kErrorItemExist,

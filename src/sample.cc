@@ -3,6 +3,7 @@
 
 void json_config_sample()
 {
+
     //动态初始化配置的key-default_value对
     JsonConfig *jc = new JsonConfig("json.cfg");
     jc->insert_item("str_key_1", (string)"str_1");
@@ -20,8 +21,11 @@ void json_config_sample()
     jc->insert_item("double_key_without_range", 101.2);
     jc->insert_item_int64("int64_key_without_range", 110L);
 
+
     //从配置文件读取
-    jc->initialize_load();
+    jc->initialize();
+
+    printf("dump:%d items\n%s\n\n", jc->size(), jc->dump().c_str());
 
     jc->set_value("str_key_1", (string)"str_1_changed");
     bool ret = jc->set_value("str", "fail_test");
