@@ -11,6 +11,8 @@ enum JsonConfigErrors {
     kErrorItemExist,
     kErrorItemNotExist,
 
+    kErrorInvalidValue,
+
     kErrorOpenFileWithWriteFailed,
     kErrorOpenFileWithReadFailed,
 

@@ -75,6 +75,11 @@ private:
     JsonConfigErrors save(const Json::Value& in);
 
 private:
+    static bool clamp_int(int val, int low, int hi);
+    static bool clamp_int64(int64_t val, int64_t low, int64_t hi);
+    static bool clamp_double(double val, double low, double hi);
+
+private:
     Json::Value config_items_;
     bool initialized_;
     pthread_mutex_t mutex_;

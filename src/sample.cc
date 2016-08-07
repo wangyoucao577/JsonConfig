@@ -12,9 +12,9 @@ void json_config_sample()
     jc->insert_item("bool_key_5", true);
     jc->insert_item("int_key_6", 0, 0, 1);
     jc->insert_item("int_key_7", -1, -10, 22);
-    jc->insert_item("int_key_8", 99999, 0, 93);
-    jc->insert_item_int64("int64_key_9", 11111111111111111111LL, 0LL, 11LL);
-    jc->insert_item("double_key_10", 32423432.32, 0.1, 11.1);
+    jc->insert_item("int_key_8", 13, 0, 93);
+    jc->insert_item_int64("int64_key_9", 15LL, 0LL, 1111111111111111111LL);
+    jc->insert_item("double_key_10", 10.2, 0.1, 32423432.32);
 
     //从配置文件读取
     jc->initialize_load();

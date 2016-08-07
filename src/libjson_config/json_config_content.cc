@@ -87,6 +87,8 @@ JsonConfigErrors JsonConfigContent::insert_item_bool(const string& key, bool def
 }
 JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int default_value, int low, int hi)
 {
+    JSON_CONFIG_ASSERT(clamp_int(default_value, low, hi));
+
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
         pthread_mutex_unlock(&mutex_);
@@ -105,6 +107,8 @@ JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int defau
 }
 JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t default_value, int64_t low, int64_t hi)
 {
+    JSON_CONFIG_ASSERT(clamp_int64(default_value, low, hi));
+
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
         pthread_mutex_unlock(&mutex_);
@@ -123,6 +127,8 @@ JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t
 }
 JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double default_value, double low, double hi)
 {
+    JSON_CONFIG_ASSERT(clamp_double(default_value, low, hi));
+
     pthread_mutex_lock(&mutex_);
     if (initialized_) {
         pthread_mutex_unlock(&mutex_);
@@ -159,21 +165,27 @@ bool JsonConfigContent::validate_configs(Json::Value& config_items)
     }
 
     for (map<string, NumericScope>::iterator it = key_int_items_.begin(); it != key_int_items_.end(); ++it) {
-        if (config_items[it->first].empty() || !config_items[it->first].isInt()) {
+        if (    config_items[it->first].empty()
+            || !config_items[it->first].isInt()
+            || !clamp_int(config_items[it->first].asInt(), it->second.low.i, it->second.hi.i)){
             config_items[it->first] = it->second.default.i;
             anything_changed = true;
         }
     }
 
     for (map<string, NumericScope>::iterator it = key_int64_items_.begin(); it != key_int64_items_.end(); ++it) {
-        if (config_items[it->first].empty() || !config_items[it->first].isInt64()) {
+        if (    config_items[it->first].empty() 
+            || !config_items[it->first].isInt64()
+            || !clamp_int64(config_items[it->first].asInt64(), it->second.low.i64, it->second.hi.i64)) {
             config_items[it->first] = it->second.default.i64;
             anything_changed = true;
         }
     }
 
     for (map <string, NumericScope> ::iterator it = key_double_items_.begin(); it != key_double_items_.end(); ++it) {
-        if (config_items[it->first].empty() || !config_items[it->first].isDouble()) {
+        if (    config_items[it->first].empty() 
+            || !config_items[it->first].isDouble()
+            || !clamp_double(config_items[it->first].asDouble(), it->second.low.d, it->second.hi.d)) {
             config_items[it->first] = it->second.default.d;
             anything_changed = true;
         }
@@ -283,6 +295,10 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
+        if (!clamp_int(val.nv.i, key_int_items_[key].low.i, key_int_items_[key].hi.i)) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorInvalidValue;
+        }
         config_items_[key] = val.nv.i;
         break;
     case kItemTypeInt64:
@@ -290,12 +306,20 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
+        if (!clamp_int64(val.nv.i64, key_int64_items_[key].low.i64, key_int64_items_[key].hi.i64)) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorInvalidValue;
+        }
         config_items_[key] = val.nv.i64;
         break;
     case kItemTypeDouble:
         if (config_items_[key].asDouble() == val.nv.d) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
+        }
+        if (!clamp_double(val.nv.d, key_double_items_[key].low.d, key_double_items_[key].hi.d)) {
+            pthread_mutex_unlock(&mutex_);
+            return kErrorInvalidValue;
         }
         config_items_[key] = val.nv.d;
         break;
@@ -394,3 +418,26 @@ JsonConfigErrors JsonConfigContent::load(Json::Value& out)
 
     return kOK;
 }
+
+bool JsonConfigContent::clamp_int(int val, int low, int hi)
+{
+    if (val >= low && val <= hi) {
+        return true;
+    }
+    return false;
+}
+bool JsonConfigContent::clamp_int64(int64_t val, int64_t low, int64_t hi)
+{
+    if (val >= low && val <= hi) {
+        return true;
+    }
+    return false;
+}
+bool JsonConfigContent::clamp_double(double val, double low, double hi)
+{
+    if (val >= low && val <= hi) {
+        return true;
+    }
+    return false;
+}
+
