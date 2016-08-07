@@ -51,7 +51,8 @@ void NumericScope::set_double(double def, double low, double hi)
 
 JsonConfigContent::JsonConfigContent(string config_file_path) :
     config_file_path_(config_file_path),
-    initialized_(false)
+    initialized_(false),
+    initialize_called(false)
 {
     pthread_mutex_init(&mutex_, NULL);
     pthread_mutex_init(&config_file_mutex_, NULL);
@@ -67,34 +68,38 @@ JsonConfigContent::~JsonConfigContent()
 JsonConfigErrors JsonConfigContent::insert_item_string(const string& key, string default_value)
 {
     pthread_mutex_lock(&mutex_);
-    if (initialized_) {
+    if (initialized_ || initialize_called) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemsInitialized;
     }
 
-    pair<map<string, string>::iterator, bool> ret = key_string_items_.insert(map<string, string>::value_type(key, default_value));
-    if (!ret.second) {
+    if (is_key_exist_unsafe(key)) {
         pthread_mutex_unlock(&mutex_);
         JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
+
+    key_string_items_.insert(map<string, string>::value_type(key, default_value));
     pthread_mutex_unlock(&mutex_);
     return kOK;
 }
 JsonConfigErrors JsonConfigContent::insert_item_bool(const string& key, bool default_value)
 {
     pthread_mutex_lock(&mutex_);
-    if (initialized_) {
+    if (initialized_ || initialize_called) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemsInitialized;
     }
 
-    pair<map<string, bool>::iterator, bool> ret = key_bool_items_.insert(map<string, bool>::value_type(key, default_value));
-    if (!ret.second) {
+    if (is_key_exist_unsafe(key)) {
         pthread_mutex_unlock(&mutex_);
         JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
+
+    key_bool_items_.insert(map<string, bool>::value_type(key, default_value));
     pthread_mutex_unlock(&mutex_);
     return kOK;
 }
@@ -103,19 +108,21 @@ JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int defau
     JSON_CONFIG_ASSERT(clamp_int(default_value, low, hi));
 
     pthread_mutex_lock(&mutex_);
-    if (initialized_) {
+    if (initialized_ || initialize_called) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemsInitialized;
     }
 
-    NumericScope val;
-    val.set_int(default_value, low, hi);
-    pair<map<string, NumericScope>::iterator, bool> ret = key_int_items_.insert(map<string, NumericScope>::value_type(key, val));
-    if (!ret.second) {
+    if (is_key_exist_unsafe(key)) {
         pthread_mutex_unlock(&mutex_);
         JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
+
+    NumericScope val;
+    val.set_int(default_value, low, hi);
+    key_int_items_.insert(map<string, NumericScope>::value_type(key, val));
     pthread_mutex_unlock(&mutex_);
     return kOK;
 }
@@ -124,19 +131,21 @@ JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t
     JSON_CONFIG_ASSERT(clamp_int64(default_value, low, hi));
 
     pthread_mutex_lock(&mutex_);
-    if (initialized_) {
+    if (initialized_ || initialize_called) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemsInitialized;
     }
 
-    NumericScope val;
-    val.set_int64(default_value, low, hi);
-    pair<map<string, NumericScope>::iterator, bool> ret = key_int64_items_.insert(map<string, NumericScope>::value_type(key, val));
-    if (!ret.second) {
+    if (is_key_exist_unsafe(key)) {
         pthread_mutex_unlock(&mutex_);
         JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
+
+    NumericScope val;
+    val.set_int64(default_value, low, hi);
+    key_int64_items_.insert(map<string, NumericScope>::value_type(key, val));
     pthread_mutex_unlock(&mutex_);
     return kOK;
 }
@@ -145,27 +154,28 @@ JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double
     JSON_CONFIG_ASSERT(clamp_double(default_value, low, hi));
 
     pthread_mutex_lock(&mutex_);
-    if (initialized_) {
+    if (initialized_ || initialize_called) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemsInitialized;
     }
 
-    NumericScope val;
-    val.set_double(default_value, low, hi);
-    pair<map<string, NumericScope>::iterator, bool> ret = key_double_items_.insert(map<string, NumericScope>::value_type(key, val));
-    if (!ret.second) {
+    if (is_key_exist_unsafe(key)) {
         pthread_mutex_unlock(&mutex_);
         JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
+
+    NumericScope val;
+    val.set_double(default_value, low, hi);
+    key_double_items_.insert(map<string, NumericScope>::value_type(key, val));
     pthread_mutex_unlock(&mutex_);
     return kOK;
 }
 
-bool JsonConfigContent::validate_configs(Json::Value& config_items)
+bool JsonConfigContent::validate_configs_unsafe(Json::Value& config_items)
 {
     bool anything_changed = false;
-
     for (map<string, string>::iterator it = key_string_items_.begin(); it != key_string_items_.end(); ++it) {
         if (config_items[it->first].empty() || !config_items[it->first].isString()) {
             config_items[it->first] = it->second;
@@ -206,7 +216,6 @@ bool JsonConfigContent::validate_configs(Json::Value& config_items)
             anything_changed = true;
         }
     }
-
     return anything_changed;
 }
 
@@ -218,12 +227,6 @@ Json::Value JsonConfigContent::get_config_items()
     return val;
 }
 
-void JsonConfigContent::set_config_items(const Json::Value& config_items)
-{
-    pthread_mutex_lock(&mutex_);
-    config_items_ = config_items;
-    pthread_mutex_unlock(&mutex_);
-}
 
 JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, ValuesSet val)
 {
@@ -235,6 +238,7 @@ JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemT
 
     if (config_items_[key].empty()) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemNotExist;
     }
 
@@ -243,35 +247,40 @@ JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemT
     case kItemTypeString:
         if (!config_items_[key].isString()) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorItemNotExist;
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
         }
         val.s = config_items_[key].asString();
         break;
     case kItemTypeInt:
         if (!config_items_[key].isInt()) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorItemNotExist;
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
         }
         val.nv.i = config_items_[key].asInt();
         break;
     case kItemTypeInt64:
         if (!config_items_[key].isInt64()) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorItemNotExist;
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
         }
         val.nv.i64 = config_items_[key].asInt64();
         break;
     case kItemTypeDouble:
         if (!config_items_[key].isDouble()) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorItemNotExist;
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
         }
         val.nv.d = config_items_[key].asDouble();
         break;
     case kItemTypeBool:
         if (!config_items_[key].isBool()) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorItemNotExist;
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
         }
         val.b = config_items_[key].asBool();
         break;
@@ -294,12 +303,18 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
 
     if (config_items_[key].empty()) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemNotExist;
     }
 
     switch (type)
     {
     case kItemTypeString:
+        if (!config_items_[key].isString()) {
+            pthread_mutex_unlock(&mutex_);
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
+        }
         if (0 == config_items_[key].asString().compare(val.s)) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
@@ -307,39 +322,59 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
         config_items_[key] = val.s;
         break;
     case kItemTypeInt:
+        if (!config_items_[key].isInt()) {
+            pthread_mutex_unlock(&mutex_);
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
+        }
         if (config_items_[key].asInt() == val.nv.i) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
         if (!clamp_int(val.nv.i, key_int_items_[key].low.i, key_int_items_[key].hi.i)) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorInvalidValue;
+            return kErrorValueOutofRange;
         }
         config_items_[key] = val.nv.i;
         break;
     case kItemTypeInt64:
+        if (!config_items_[key].isInt64()) {
+            pthread_mutex_unlock(&mutex_);
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
+        }
         if (config_items_[key].asInt64() == val.nv.i64) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
         if (!clamp_int64(val.nv.i64, key_int64_items_[key].low.i64, key_int64_items_[key].hi.i64)) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorInvalidValue;
+            return kErrorValueOutofRange;
         }
         config_items_[key] = val.nv.i64;
         break;
     case kItemTypeDouble:
+        if (!config_items_[key].isDouble()) {
+            pthread_mutex_unlock(&mutex_);
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
+        }
         if (config_items_[key].asDouble() == val.nv.d) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
         }
         if (!clamp_double(val.nv.d, key_double_items_[key].low.d, key_double_items_[key].hi.d)) {
             pthread_mutex_unlock(&mutex_);
-            return kErrorInvalidValue;
+            return kErrorValueOutofRange;
         }
         config_items_[key] = val.nv.d;
         break;
     case kItemTypeBool:
+        if (!config_items_[key].isBool()) {
+            pthread_mutex_unlock(&mutex_);
+            JSON_CONFIG_ASSERT(0);
+            return kErrorValueTypeUnmatch;
+        }
         if (config_items_[key].asBool() == val.b) {
             pthread_mutex_unlock(&mutex_);
             return kOK;
@@ -358,11 +393,12 @@ JsonConfigErrors JsonConfigContent::set_value(const string& key, JsonConfigItemT
 JsonConfigErrors JsonConfigContent::initialize_load()
 {
     pthread_mutex_lock(&mutex_);
-    if (initialized_) { //only allow to invoke once.
+    if (initialized_ || initialize_called) { //only allow to invoke once.
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorMultipleInitialize;
     }
-    initialized_ = true;
+    initialize_called = true;
     pthread_mutex_unlock(&mutex_);
 
     bool require_save = false;
@@ -373,13 +409,17 @@ JsonConfigErrors JsonConfigContent::initialize_load()
         //load error, require save to file
         require_save = true;
     }
-    if (validate_configs(load_config_items)) {
+
+    pthread_mutex_lock(&mutex_);
+    if (validate_configs_unsafe(load_config_items)) {
         //anything changed, require save to file
         require_save = true;
     }
 
     //initialize config items
-    set_config_items(load_config_items);
+    config_items_ = load_config_items;
+    initialized_ = true;
+    pthread_mutex_unlock(&mutex_);
 
     err = kOK;
     if (require_save) {
@@ -429,7 +469,7 @@ JsonConfigErrors JsonConfigContent::load(Json::Value& out)
 
     Json::Reader config_reader;
     if (!config_reader.parse(config_str, out)) {
-        return kErrorJsonParseFailed;
+        return kErrorConfigFileParseFailed;
     }
 
     return kOK;
@@ -457,3 +497,14 @@ bool JsonConfigContent::clamp_double(double val, double low, double hi)
     return false;
 }
 
+bool JsonConfigContent::is_key_exist_unsafe(const string& key)
+{
+    if (   key_string_items_.find(key) == key_string_items_.end()
+        && key_bool_items_.find(key) == key_bool_items_.end()
+        && key_int_items_.find(key) == key_int_items_.end()
+        && key_int64_items_.find(key) == key_int64_items_.end()
+        && key_double_items_.find(key) == key_double_items_.end()) {
+        return false;
+    }
+    return true;
+}

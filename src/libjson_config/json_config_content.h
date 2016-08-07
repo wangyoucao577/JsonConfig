@@ -67,10 +67,11 @@ public:
 
 private:
 
-    bool validate_configs(Json::Value& config_items);
+    bool is_key_exist_unsafe(const string& key);
+
+    bool validate_configs_unsafe(Json::Value& config_items);
 
     Json::Value get_config_items();
-    void set_config_items(const Json::Value& config_items);
 
     //config file operations
     JsonConfigErrors load(Json::Value& out);
@@ -84,6 +85,7 @@ private:
 private:
     Json::Value config_items_;
     bool initialized_;
+    bool initialize_called;
     pthread_mutex_t mutex_;
 
     //<key, default_value> pair. dynamic initialize at the beginning. 
