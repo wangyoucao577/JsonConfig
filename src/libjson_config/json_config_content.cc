@@ -64,6 +64,7 @@ JsonConfigErrors JsonConfigContent::insert_item_string(const string& key, string
     pair<map<string, string>::iterator, bool> ret = key_string_items_.insert(map<string, string>::value_type(key, default_value));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
@@ -80,6 +81,7 @@ JsonConfigErrors JsonConfigContent::insert_item_bool(const string& key, bool def
     pair<map<string, bool>::iterator, bool> ret = key_bool_items_.insert(map<string, bool>::value_type(key, default_value));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
@@ -100,6 +102,7 @@ JsonConfigErrors JsonConfigContent::insert_item_int(const string& key, int defau
     pair<map<string, NumericScope>::iterator, bool> ret = key_int_items_.insert(map<string, NumericScope>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
@@ -120,6 +123,7 @@ JsonConfigErrors JsonConfigContent::insert_item_int64(const string& key, int64_t
     pair<map<string, NumericScope>::iterator, bool> ret = key_int64_items_.insert(map<string, NumericScope>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
@@ -140,6 +144,7 @@ JsonConfigErrors JsonConfigContent::insert_item_double(const string& key, double
     pair<map<string, NumericScope>::iterator, bool> ret = key_double_items_.insert(map<string, NumericScope>::value_type(key, val));
     if (!ret.second) {
         pthread_mutex_unlock(&mutex_);
+        JSON_CONFIG_ASSERT(0);
         return kErrorItemExist;
     }
     pthread_mutex_unlock(&mutex_);
