@@ -1,6 +1,8 @@
 
 #include "libjson_config/json_config.h"
 
+using namespace std;
+
 void json_config_sample()
 {
 
