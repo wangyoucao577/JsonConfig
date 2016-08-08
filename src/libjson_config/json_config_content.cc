@@ -227,7 +227,7 @@ Json::Value JsonConfigContent::get_config_items()
 }
 
 
-JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, ValuesSet val)
+JsonConfigErrors JsonConfigContent::get_value(const string& key, JsonConfigItemType type, ValuesSet& val)
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {

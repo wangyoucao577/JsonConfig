@@ -64,7 +64,7 @@ public:
     JsonConfigErrors initialize_load();
 
     JsonConfigErrors set_value(const string& key, JsonConfigItemType type, const ValuesSet& val);
-    JsonConfigErrors get_value(const string& key, JsonConfigItemType type, ValuesSet val);
+    JsonConfigErrors get_value(const string& key, JsonConfigItemType type, ValuesSet& val);
 
     string dump();
     int size();
