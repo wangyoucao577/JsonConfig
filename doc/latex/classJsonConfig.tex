@@ -1,0 +1,573 @@
+\hypertarget{classJsonConfig}{\section{Json\-Config Class Reference}
+\label{classJsonConfig}\index{Json\-Config@{Json\-Config}}
+}
+
+
+{\ttfamily \#include $<$json\-\_\-config.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classJsonConfig_a0b53a968f4d0eaff96fd22250f16ff8a}{Json\-Config} (std\-::string config\-\_\-file\-\_\-path)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a069283404d27fb0adc4097b42948d739}{insert\-\_\-item\-\_\-string} (const std\-::string \&key, std\-::string default\-\_\-value)
+\begin{DoxyCompactList}\small\item\em insert new type string key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_acf439fc33e6311c68de35cfa4d481428}{insert\-\_\-item} (const std\-::string \&key, bool default\-\_\-value)
+\begin{DoxyCompactList}\small\item\em insert new type bool key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a929c902ca7517a27aa3c1707da954fae}{insert\-\_\-item} (const std\-::string \&key, double default\-\_\-value, double low=D\-B\-L\-\_\-\-M\-I\-N, double hi=D\-B\-L\-\_\-\-M\-A\-X)
+\begin{DoxyCompactList}\small\item\em insert new type double key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_ad2fdb7b3cbf7732476a89bf7e1445016}{insert\-\_\-item} (const std\-::string \&key, int default\-\_\-value, int low=I\-N\-T\-\_\-\-M\-I\-N, int hi=I\-N\-T\-\_\-\-M\-A\-X)
+\begin{DoxyCompactList}\small\item\em insert new type int key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a80ef3345d0dc89987311546e59b7cb32}{insert\-\_\-item\-\_\-int64} (const std\-::string \&key, int64\-\_\-t default\-\_\-value, int64\-\_\-t low=L\-L\-O\-N\-G\-\_\-\-M\-I\-N, int64\-\_\-t hi=L\-L\-O\-N\-G\-\_\-\-M\-A\-X)
+\begin{DoxyCompactList}\small\item\em insert new type int64\-\_\-t key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize} ()
+\begin{DoxyCompactList}\small\item\em initialize this instance, read from config file and parse the format and items. load default if failed. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a543f847c45a1bdedf827e677a37e6b9f}{set\-\_\-value\-\_\-string} (const std\-::string \&key, std\-::string val)
+\begin{DoxyCompactList}\small\item\em set new value for the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a75e2fb241ffef61f1696d6326dc7e438}{set\-\_\-value} (const std\-::string \&key, bool val)
+\begin{DoxyCompactList}\small\item\em set new value for the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_adf59d8ff5dea77092e5d1c4f22f9d3ce}{set\-\_\-value} (const std\-::string \&key, double val)
+\begin{DoxyCompactList}\small\item\em set new value for the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a5425e269b4c7f21196f8236171d429d8}{set\-\_\-value} (const std\-::string \&key, int val)
+\begin{DoxyCompactList}\small\item\em set new value for the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a3d485ef4ff3120be09454421291c879e}{set\-\_\-value\-\_\-int64} (const std\-::string \&key, int64\-\_\-t val)
+\begin{DoxyCompactList}\small\item\em set new value for the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_afbafe98c00f500f52a53465cef93d9db}{get\-\_\-value\-\_\-string} (const std\-::string \&key, std\-::string \&val)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a800f597545aa7a158f19699199e8b9a4}{get\-\_\-value} (const std\-::string \&key, bool \&val)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_ab110a5db1db673f7c98686283bd1a23f}{get\-\_\-value} (const std\-::string \&key, double \&val)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a11e45465452e3ad7e7114b889ed37d60}{get\-\_\-value} (const std\-::string \&key, int \&val)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+Json\-Config\-Errors \hyperlink{classJsonConfig_a13cb996e75a83b3f11c32e2f276c3efd}{get\-\_\-value\-\_\-int64} (const std\-::string \&key, int64\-\_\-t \&val)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classJsonConfig_a27d69307715ae3e63d61ea65b75f22e2}{value\-\_\-string} (const std\-::string \&key)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+bool \hyperlink{classJsonConfig_a59dfae74e9899bd9d8f23a36ea2e39b3}{value\-\_\-bool} (const std\-::string \&key)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+double \hyperlink{classJsonConfig_a36831c9ff4c2f76994875cb64d1c0bae}{value\-\_\-double} (const std\-::string \&key)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+int \hyperlink{classJsonConfig_ad436a313289e89dbd77f8f934574dd3d}{value\-\_\-int} (const std\-::string \&key)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+int64\-\_\-t \hyperlink{classJsonConfig_a3c90c715906dfa95fb27a2089e6414f5}{value\-\_\-int64} (const std\-::string \&key)
+\begin{DoxyCompactList}\small\item\em get value of the indicated key. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classJsonConfig_aa1ea2ffc00e8535fb37055790a86bf88}{dump} ()
+\begin{DoxyCompactList}\small\item\em dump all key-\/value pairs as a string, for print and debug. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{classJsonConfig_ad941c321f34696e1b7e5e48f37d27164}{size} ()
+\begin{DoxyCompactList}\small\item\em get how many items in this instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+core class of \hyperlink{classJsonConfig}{Json\-Config}. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classJsonConfig_a0b53a968f4d0eaff96fd22250f16ff8a}{\index{Json\-Config@{Json\-Config}!Json\-Config@{Json\-Config}}
+\index{Json\-Config@{Json\-Config}!JsonConfig@{Json\-Config}}
+\subsubsection[{Json\-Config}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-::\-Json\-Config (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{config\-\_\-file\-\_\-path}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a0b53a968f4d0eaff96fd22250f16ff8a}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\-\_\-file\-\_\-path} & the full path of the config file \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classJsonConfig_aa1ea2ffc00e8535fb37055790a86bf88}{\index{Json\-Config@{Json\-Config}!dump@{dump}}
+\index{dump@{dump}!JsonConfig@{Json\-Config}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Json\-Config\-::dump (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_aa1ea2ffc00e8535fb37055790a86bf88}
+
+
+dump all key-\/value pairs as a string, for print and debug. 
+
+\begin{DoxyReturn}{Returns}
+the styled type-\/string for all items. 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a800f597545aa7a158f19699199e8b9a4}{\index{Json\-Config@{Json\-Config}!get\-\_\-value@{get\-\_\-value}}
+\index{get\-\_\-value@{get\-\_\-value}!JsonConfig@{Json\-Config}}
+\subsubsection[{get\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::get\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{bool \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a800f597545aa7a158f19699199e8b9a4}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the output type bool value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_ab110a5db1db673f7c98686283bd1a23f}{\index{Json\-Config@{Json\-Config}!get\-\_\-value@{get\-\_\-value}}
+\index{get\-\_\-value@{get\-\_\-value}!JsonConfig@{Json\-Config}}
+\subsubsection[{get\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::get\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{double \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_ab110a5db1db673f7c98686283bd1a23f}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the output type double value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a11e45465452e3ad7e7114b889ed37d60}{\index{Json\-Config@{Json\-Config}!get\-\_\-value@{get\-\_\-value}}
+\index{get\-\_\-value@{get\-\_\-value}!JsonConfig@{Json\-Config}}
+\subsubsection[{get\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::get\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{int \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a11e45465452e3ad7e7114b889ed37d60}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the output type int value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a13cb996e75a83b3f11c32e2f276c3efd}{\index{Json\-Config@{Json\-Config}!get\-\_\-value\-\_\-int64@{get\-\_\-value\-\_\-int64}}
+\index{get\-\_\-value\-\_\-int64@{get\-\_\-value\-\_\-int64}!JsonConfig@{Json\-Config}}
+\subsubsection[{get\-\_\-value\-\_\-int64}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::get\-\_\-value\-\_\-int64 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{int64\-\_\-t \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a13cb996e75a83b3f11c32e2f276c3efd}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the output type int64\-\_\-t value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_afbafe98c00f500f52a53465cef93d9db}{\index{Json\-Config@{Json\-Config}!get\-\_\-value\-\_\-string@{get\-\_\-value\-\_\-string}}
+\index{get\-\_\-value\-\_\-string@{get\-\_\-value\-\_\-string}!JsonConfig@{Json\-Config}}
+\subsubsection[{get\-\_\-value\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::get\-\_\-value\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{std\-::string \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_afbafe98c00f500f52a53465cef93d9db}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the output type string value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{\index{Json\-Config@{Json\-Config}!initialize@{initialize}}
+\index{initialize@{initialize}!JsonConfig@{Json\-Config}}
+\subsubsection[{initialize}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}
+
+
+initialize this instance, read from config file and parse the format and items. load default if failed. 
+
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_acf439fc33e6311c68de35cfa4d481428}{\index{Json\-Config@{Json\-Config}!insert\-\_\-item@{insert\-\_\-item}}
+\index{insert\-\_\-item@{insert\-\_\-item}!JsonConfig@{Json\-Config}}
+\subsubsection[{insert\-\_\-item}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::insert\-\_\-item (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{bool}]{default\-\_\-value}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_acf439fc33e6311c68de35cfa4d481428}
+
+
+insert new type bool key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em default\-\_\-value} & default value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a929c902ca7517a27aa3c1707da954fae}{\index{Json\-Config@{Json\-Config}!insert\-\_\-item@{insert\-\_\-item}}
+\index{insert\-\_\-item@{insert\-\_\-item}!JsonConfig@{Json\-Config}}
+\subsubsection[{insert\-\_\-item}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::insert\-\_\-item (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{double}]{default\-\_\-value, }
+\item[{double}]{low = {\ttfamily DBL\-\_\-MIN}, }
+\item[{double}]{hi = {\ttfamily DBL\-\_\-MAX}}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a929c902ca7517a27aa3c1707da954fae}
+
+
+insert new type double key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em default\-\_\-value} & default value of this item \\
+\hline
+{\em low} & the minimum limit, default D\-B\-L\-\_\-\-M\-I\-N \\
+\hline
+{\em hi} & the maximum limit, default D\-B\-L\-\_\-\-M\-A\-X \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_ad2fdb7b3cbf7732476a89bf7e1445016}{\index{Json\-Config@{Json\-Config}!insert\-\_\-item@{insert\-\_\-item}}
+\index{insert\-\_\-item@{insert\-\_\-item}!JsonConfig@{Json\-Config}}
+\subsubsection[{insert\-\_\-item}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::insert\-\_\-item (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{int}]{default\-\_\-value, }
+\item[{int}]{low = {\ttfamily INT\-\_\-MIN}, }
+\item[{int}]{hi = {\ttfamily INT\-\_\-MAX}}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_ad2fdb7b3cbf7732476a89bf7e1445016}
+
+
+insert new type int key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em default\-\_\-value} & default value of this item \\
+\hline
+{\em low} & the minimum limit, default I\-N\-T\-\_\-\-M\-I\-N \\
+\hline
+{\em hi} & the maximum limit, default I\-N\-T\-\_\-\-M\-A\-X \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a80ef3345d0dc89987311546e59b7cb32}{\index{Json\-Config@{Json\-Config}!insert\-\_\-item\-\_\-int64@{insert\-\_\-item\-\_\-int64}}
+\index{insert\-\_\-item\-\_\-int64@{insert\-\_\-item\-\_\-int64}!JsonConfig@{Json\-Config}}
+\subsubsection[{insert\-\_\-item\-\_\-int64}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::insert\-\_\-item\-\_\-int64 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{int64\-\_\-t}]{default\-\_\-value, }
+\item[{int64\-\_\-t}]{low = {\ttfamily LLONG\-\_\-MIN}, }
+\item[{int64\-\_\-t}]{hi = {\ttfamily LLONG\-\_\-MAX}}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a80ef3345d0dc89987311546e59b7cb32}
+
+
+insert new type int64\-\_\-t key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em default\-\_\-value} & default value of this item \\
+\hline
+{\em low} & the minimum limit, default L\-L\-O\-N\-G\-\_\-\-M\-I\-N \\
+\hline
+{\em hi} & the maximum limit, default L\-L\-O\-N\-G\-\_\-\-M\-A\-X \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a069283404d27fb0adc4097b42948d739}{\index{Json\-Config@{Json\-Config}!insert\-\_\-item\-\_\-string@{insert\-\_\-item\-\_\-string}}
+\index{insert\-\_\-item\-\_\-string@{insert\-\_\-item\-\_\-string}!JsonConfig@{Json\-Config}}
+\subsubsection[{insert\-\_\-item\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::insert\-\_\-item\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{std\-::string}]{default\-\_\-value}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a069283404d27fb0adc4097b42948d739}
+
+
+insert new type string key-\/value for this instance. should be called before \hyperlink{classJsonConfig_ac25bb66c90b5c2ae6853376b288620c9}{initialize()} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em default\-\_\-value} & default value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a75e2fb241ffef61f1696d6326dc7e438}{\index{Json\-Config@{Json\-Config}!set\-\_\-value@{set\-\_\-value}}
+\index{set\-\_\-value@{set\-\_\-value}!JsonConfig@{Json\-Config}}
+\subsubsection[{set\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::set\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{bool}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a75e2fb241ffef61f1696d6326dc7e438}
+
+
+set new value for the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the new type bool value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_adf59d8ff5dea77092e5d1c4f22f9d3ce}{\index{Json\-Config@{Json\-Config}!set\-\_\-value@{set\-\_\-value}}
+\index{set\-\_\-value@{set\-\_\-value}!JsonConfig@{Json\-Config}}
+\subsubsection[{set\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::set\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{double}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_adf59d8ff5dea77092e5d1c4f22f9d3ce}
+
+
+set new value for the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the new type double value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a5425e269b4c7f21196f8236171d429d8}{\index{Json\-Config@{Json\-Config}!set\-\_\-value@{set\-\_\-value}}
+\index{set\-\_\-value@{set\-\_\-value}!JsonConfig@{Json\-Config}}
+\subsubsection[{set\-\_\-value}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::set\-\_\-value (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{int}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a5425e269b4c7f21196f8236171d429d8}
+
+
+set new value for the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the new type int value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a3d485ef4ff3120be09454421291c879e}{\index{Json\-Config@{Json\-Config}!set\-\_\-value\-\_\-int64@{set\-\_\-value\-\_\-int64}}
+\index{set\-\_\-value\-\_\-int64@{set\-\_\-value\-\_\-int64}!JsonConfig@{Json\-Config}}
+\subsubsection[{set\-\_\-value\-\_\-int64}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::set\-\_\-value\-\_\-int64 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{int64\-\_\-t}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a3d485ef4ff3120be09454421291c879e}
+
+
+set new value for the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the new type int64\-\_\-t value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a543f847c45a1bdedf827e677a37e6b9f}{\index{Json\-Config@{Json\-Config}!set\-\_\-value\-\_\-string@{set\-\_\-value\-\_\-string}}
+\index{set\-\_\-value\-\_\-string@{set\-\_\-value\-\_\-string}!JsonConfig@{Json\-Config}}
+\subsubsection[{set\-\_\-value\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}Json\-Config\-Errors Json\-Config\-::set\-\_\-value\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key, }
+\item[{std\-::string}]{val}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a543f847c45a1bdedf827e677a37e6b9f}
+
+
+set new value for the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+{\em val} & the new type string value of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+k\-Ok if success, otherwise failed 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_ad941c321f34696e1b7e5e48f37d27164}{\index{Json\-Config@{Json\-Config}!size@{size}}
+\index{size@{size}!JsonConfig@{Json\-Config}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t Json\-Config\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_ad941c321f34696e1b7e5e48f37d27164}
+
+
+get how many items in this instance. 
+
+\begin{DoxyReturn}{Returns}
+items count. 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a59dfae74e9899bd9d8f23a36ea2e39b3}{\index{Json\-Config@{Json\-Config}!value\-\_\-bool@{value\-\_\-bool}}
+\index{value\-\_\-bool@{value\-\_\-bool}!JsonConfig@{Json\-Config}}
+\subsubsection[{value\-\_\-bool}]{\setlength{\rightskip}{0pt plus 5cm}bool Json\-Config\-::value\-\_\-bool (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a59dfae74e9899bd9d8f23a36ea2e39b3}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type bool value of this item. 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a36831c9ff4c2f76994875cb64d1c0bae}{\index{Json\-Config@{Json\-Config}!value\-\_\-double@{value\-\_\-double}}
+\index{value\-\_\-double@{value\-\_\-double}!JsonConfig@{Json\-Config}}
+\subsubsection[{value\-\_\-double}]{\setlength{\rightskip}{0pt plus 5cm}double Json\-Config\-::value\-\_\-double (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a36831c9ff4c2f76994875cb64d1c0bae}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type double value of this item. 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_ad436a313289e89dbd77f8f934574dd3d}{\index{Json\-Config@{Json\-Config}!value\-\_\-int@{value\-\_\-int}}
+\index{value\-\_\-int@{value\-\_\-int}!JsonConfig@{Json\-Config}}
+\subsubsection[{value\-\_\-int}]{\setlength{\rightskip}{0pt plus 5cm}int Json\-Config\-::value\-\_\-int (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_ad436a313289e89dbd77f8f934574dd3d}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type int value of this item. 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a3c90c715906dfa95fb27a2089e6414f5}{\index{Json\-Config@{Json\-Config}!value\-\_\-int64@{value\-\_\-int64}}
+\index{value\-\_\-int64@{value\-\_\-int64}!JsonConfig@{Json\-Config}}
+\subsubsection[{value\-\_\-int64}]{\setlength{\rightskip}{0pt plus 5cm}int64\-\_\-t Json\-Config\-::value\-\_\-int64 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a3c90c715906dfa95fb27a2089e6414f5}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type int64\-\_\-t value of this item. 
+\end{DoxyReturn}
+\hypertarget{classJsonConfig_a27d69307715ae3e63d61ea65b75f22e2}{\index{Json\-Config@{Json\-Config}!value\-\_\-string@{value\-\_\-string}}
+\index{value\-\_\-string@{value\-\_\-string}!JsonConfig@{Json\-Config}}
+\subsubsection[{value\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Json\-Config\-::value\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{key}
+\end{DoxyParamCaption}
+)}}\label{classJsonConfig_a27d69307715ae3e63d61ea65b75f22e2}
+
+
+get value of the indicated key. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & the key of this item \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type string value of this item. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+include/libjson\-\_\-config/\hyperlink{json__config_8h}{json\-\_\-config.\-h}\end{DoxyCompactItemize}
