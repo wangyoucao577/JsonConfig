@@ -1,36 +1,41 @@
 
 #include "libjson_config/json_config.h"
+#include "sample.h"
 
 using namespace std;
 
 void json_config_sample()
 {
+    JsonConfig *jc = new JsonConfig("sample.cfg");
 
-    //动态初始化配置的key-default_value对
-    JsonConfig *jc = new JsonConfig("json.cfg");
-    jc->insert_item("str_key_1", (string)"str_1");
-    jc->insert_item("str_key_2", (string)"str_2");
-    jc->insert_item("str_key_3", (string)"str_3");
-    jc->insert_item("bool_key_4", false);
-    jc->insert_item("bool_key_5", true);
-    jc->insert_item("int_key_6", 0, 0, 1);
-    jc->insert_item("int_key_7", -1, -10, 22);
-    jc->insert_item("int_key_8", 13, 0, 93);
-    jc->insert_item_int64("int64_key_9", 15LL, 0LL, 1111111111111111111LL);
-    jc->insert_item("double_key_10", 10.2, 0.1, 32423432.32);
+    jc->insert_item(SAMPLE_CONFIG_STRING_KEY_NAME, (string)SAMPLE_CONFIG_STRING_VALUE_NAME);
+    jc->insert_item(SAMPLE_CONFIG_STRING_KEY_BIO, (string)SAMPLE_CONFIG_STRING_VALUE_BIO);
+    jc->insert_item(SAMPLE_CONFIG_BOOL_KEY_SEX, SAMPLE_CONFIG_BOOL_VALUE_SEX);
+    jc->insert_item(SAMPLE_CONFIG_INT_KEY_AGE, SAMPLE_CONFIG_INT_VALUE_AGE_DEFAULT, SAMPLE_CONFIG_INT_VALUE_AGE_LOW, SAMPLE_CONFIG_INT_VALUE_AGE_HI);
+    jc->insert_item(SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT, SAMPLE_CONFIG_DOUBLE_VALUE_HEIGHT_DEFAULT, SAMPLE_CONFIG_DOUBLE_VALUE_HEIGHT_LOW, SAMPLE_CONFIG_DOUBLE_VALUE_HEIGHT_HI);
+    jc->insert_item_int64(SAMPLE_CONFIG_INT64_KEY_THE_BOOK_BYTES, SAMPLE_CONFIG_INT64_VALUE_THE_BOOK_BYTES);
 
-    jc->insert_item("int_key_without_range", 10);
-    jc->insert_item("double_key_without_range", 101.2);
-    jc->insert_item_int64("int64_key_without_range", 110L);
-
-
-    //从配置文件读取
     jc->initialize();
 
-    printf("dump:%d items\n%s\n\n", jc->size(), jc->dump().c_str());
+    printf("sample:%d items\n%s\n\n", jc->size(), jc->dump().c_str());
 
-    jc->set_value("str_key_1", (string)"str_1_changed");
-    bool ret = jc->set_value("str", "fail_test");
+    jc->set_value(SAMPLE_CONFIG_STRING_KEY_NAME, (string)"Lucy");
+    jc->set_value(SAMPLE_CONFIG_STRING_KEY_BIO, (string)"sale");
+    jc->set_value(SAMPLE_CONFIG_BOOL_KEY_SEX, false);
+    jc->set_value(SAMPLE_CONFIG_INT_KEY_AGE, 25);
+    jc->set_value(SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT, 1.65f);
+    jc->set_value_int64(SAMPLE_CONFIG_INT64_KEY_THE_BOOK_BYTES, 20000000000LL);
+
+    printf("sample(after changed):%d items\n%s\n\n", jc->size(), jc->dump().c_str());
+
+    printf("sample peek one by one:\n");
+    printf("%s->%s\n", SAMPLE_CONFIG_STRING_KEY_NAME, jc->value_string(SAMPLE_CONFIG_STRING_KEY_NAME).c_str());
+    printf("%s->%s\n", SAMPLE_CONFIG_STRING_KEY_BIO, jc->value_string(SAMPLE_CONFIG_STRING_KEY_BIO).c_str());
+    printf("%s->%s\n", SAMPLE_CONFIG_BOOL_KEY_SEX, jc->value_bool(SAMPLE_CONFIG_BOOL_KEY_SEX) ? "true" : "false");
+    printf("%s->%d\n", SAMPLE_CONFIG_INT_KEY_AGE, jc->value_int(SAMPLE_CONFIG_INT_KEY_AGE));
+    printf("%s->%f\n", SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT, jc->value_double(SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT));
+    printf("%s->%lld\n", SAMPLE_CONFIG_INT64_KEY_THE_BOOK_BYTES, jc->value_int64(SAMPLE_CONFIG_INT64_KEY_THE_BOOK_BYTES));
+
 
 }
 
