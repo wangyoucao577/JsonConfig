@@ -39,7 +39,7 @@ public:
     int64_t value_int64(const std::string& key);
 
     std::string dump();
-    int size();
+    size_t size();
 
 private:
     JsonConfigContent* config_content_;

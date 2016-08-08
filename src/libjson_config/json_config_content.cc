@@ -526,7 +526,7 @@ string JsonConfigContent::dump()
     return get_config_items().toStyledString();
 }
 
-int JsonConfigContent::size()
+size_t JsonConfigContent::size()
 {
     pthread_mutex_lock(&mutex_);
     if (!initialized_) {
@@ -534,15 +534,15 @@ int JsonConfigContent::size()
         JSON_CONFIG_ASSERT(0);
         return 0;
     }
-    int key_count = key_count_unsafe();
+    size_t key_count = key_count_unsafe();
     pthread_mutex_unlock(&mutex_);
 
     return key_count;
 }
 
-int JsonConfigContent::key_count_unsafe()
+size_t JsonConfigContent::key_count_unsafe()
 {
-    int key_count = (key_string_items_.size() + key_int_items_.size()
+    size_t key_count = (key_string_items_.size() + key_int_items_.size()
         + key_int64_items_.size() + key_double_items_.size()
         + key_bool_items_.size());
     return key_count;

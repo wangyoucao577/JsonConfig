@@ -17,7 +17,7 @@ void json_config_sample()
 
     jc->initialize();
 
-    printf("sample:%d items\n%s\n\n", jc->size(), jc->dump().c_str());
+    printf("sample:%d items\n%s\n\n", (int)jc->size(), jc->dump().c_str());
 
     jc->set_value_string(SAMPLE_CONFIG_STRING_KEY_NAME, "Lucy");
     jc->set_value_string(SAMPLE_CONFIG_STRING_KEY_BIO, "sale");
@@ -26,7 +26,7 @@ void json_config_sample()
     jc->set_value(SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT, 1.65f);
     jc->set_value_int64(SAMPLE_CONFIG_INT64_KEY_THE_BOOK_BYTES, 20000000000LL);
 
-    printf("sample(after changed):%d items\n%s\n\n", jc->size(), jc->dump().c_str());
+    printf("sample(after changed):%d items\n%s\n\n", (int)jc->size(), jc->dump().c_str());
 
     printf("sample peek one by one:\n");
     printf("%s->%s\n", SAMPLE_CONFIG_STRING_KEY_NAME, jc->value_string(SAMPLE_CONFIG_STRING_KEY_NAME).c_str());

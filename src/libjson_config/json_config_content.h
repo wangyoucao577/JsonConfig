@@ -67,12 +67,12 @@ public:
     JsonConfigErrors get_value(const string& key, JsonConfigItemType type, ValuesSet& val);
 
     string dump();
-    int size();
+    size_t size();
 
 private:
 
     bool is_key_exist_unsafe(const string& key);
-    int key_count_unsafe();
+    size_t key_count_unsafe();
     bool validate_configs_unsafe(Json::Value& config_items);
 
     Json::Value get_config_items();

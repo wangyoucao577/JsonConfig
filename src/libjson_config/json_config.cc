@@ -176,7 +176,7 @@ string JsonConfig::dump()
     return config_content_->dump();
 }
 
-int JsonConfig::size()
+size_t JsonConfig::size()
 {
     return config_content_->size();
 }
