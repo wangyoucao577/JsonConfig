@@ -8,8 +8,8 @@ void json_config_sample()
 {
     JsonConfig *jc = new JsonConfig("sample.cfg");
 
-    jc->insert_item(SAMPLE_CONFIG_STRING_KEY_NAME, (string)SAMPLE_CONFIG_STRING_VALUE_NAME);
-    jc->insert_item(SAMPLE_CONFIG_STRING_KEY_BIO, (string)SAMPLE_CONFIG_STRING_VALUE_BIO);
+    jc->insert_item_string(SAMPLE_CONFIG_STRING_KEY_NAME, SAMPLE_CONFIG_STRING_VALUE_NAME);
+    jc->insert_item_string(SAMPLE_CONFIG_STRING_KEY_BIO, SAMPLE_CONFIG_STRING_VALUE_BIO);
     jc->insert_item(SAMPLE_CONFIG_BOOL_KEY_SEX, SAMPLE_CONFIG_BOOL_VALUE_SEX);
     jc->insert_item(SAMPLE_CONFIG_INT_KEY_AGE, SAMPLE_CONFIG_INT_VALUE_AGE_DEFAULT, SAMPLE_CONFIG_INT_VALUE_AGE_LOW, SAMPLE_CONFIG_INT_VALUE_AGE_HI);
     jc->insert_item(SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT, SAMPLE_CONFIG_DOUBLE_VALUE_HEIGHT_DEFAULT, SAMPLE_CONFIG_DOUBLE_VALUE_HEIGHT_LOW, SAMPLE_CONFIG_DOUBLE_VALUE_HEIGHT_HI);
@@ -19,8 +19,8 @@ void json_config_sample()
 
     printf("sample:%d items\n%s\n\n", jc->size(), jc->dump().c_str());
 
-    jc->set_value(SAMPLE_CONFIG_STRING_KEY_NAME, (string)"Lucy");
-    jc->set_value(SAMPLE_CONFIG_STRING_KEY_BIO, (string)"sale");
+    jc->set_value_string(SAMPLE_CONFIG_STRING_KEY_NAME, "Lucy");
+    jc->set_value_string(SAMPLE_CONFIG_STRING_KEY_BIO, "sale");
     jc->set_value(SAMPLE_CONFIG_BOOL_KEY_SEX, false);
     jc->set_value(SAMPLE_CONFIG_INT_KEY_AGE, 25);
     jc->set_value(SAMPLE_CONFIG_DOUBLE_KEY_HEIGHT, 1.65f);

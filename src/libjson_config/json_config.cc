@@ -12,7 +12,7 @@ JsonConfig::~JsonConfig()
 
 }
 
-JsonConfigErrors JsonConfig::insert_item(const string& key, string default_value)
+JsonConfigErrors JsonConfig::insert_item_string(const string& key, string default_value)
 {
     return config_content_->insert_item_string(key, default_value);
 }
@@ -38,7 +38,7 @@ JsonConfigErrors JsonConfig::initialize()
     return config_content_->initialize_load();
 }
 
-JsonConfigErrors JsonConfig::set_value(const string& key, string val)
+JsonConfigErrors JsonConfig::set_value_string(const string& key, string val)
 {
     ValuesSet item_val(val);
     return config_content_->set_value(key, kItemTypeString, item_val);
@@ -67,7 +67,7 @@ JsonConfigErrors JsonConfig::set_value(const string& key, double val)
     return config_content_->set_value(key, kItemTypeDouble, item_val);
 }
 
-JsonConfigErrors JsonConfig::get_value(const string& key, string& val)
+JsonConfigErrors JsonConfig::get_value_string(const string& key, string& val)
 {
     ValuesSet item_val;
     JsonConfigErrors err = config_content_->get_value(key, kItemTypeString, item_val);
@@ -123,7 +123,7 @@ JsonConfigErrors JsonConfig::get_value(const string& key, double& val)
 string JsonConfig::value_string(const string& key)
 {
     string out_value;
-    JsonConfigErrors err = get_value(key, out_value);
+    JsonConfigErrors err = get_value_string(key, out_value);
     if (err != kOK) {
         JSON_CONFIG_ASSERT(0);
         return "";

@@ -12,7 +12,7 @@ public:
     ~JsonConfig();
     
 public:
-    JsonConfigErrors insert_item(const std::string& key, std::string default_value);
+    JsonConfigErrors insert_item_string(const std::string& key, std::string default_value);
     JsonConfigErrors insert_item(const std::string& key, bool default_value);
     JsonConfigErrors insert_item(const std::string& key, double default_value, double low = DBL_MIN, double hi = DBL_MAX);
     JsonConfigErrors insert_item(const std::string& key, int default_value, int low = INT_MIN, int hi = INT_MAX);
@@ -20,13 +20,13 @@ public:
 
     JsonConfigErrors initialize();
 
-    JsonConfigErrors set_value(const std::string& key, std::string val);
+    JsonConfigErrors set_value_string(const std::string& key, std::string val);
     JsonConfigErrors set_value(const std::string& key, bool val);
     JsonConfigErrors set_value(const std::string& key, double val);
     JsonConfigErrors set_value(const std::string& key, int val);
     JsonConfigErrors set_value_int64(const std::string& key, int64_t val);
 
-    JsonConfigErrors get_value(const std::string& key, std::string& val);
+    JsonConfigErrors get_value_string(const std::string& key, std::string& val);
     JsonConfigErrors get_value(const std::string& key, bool& val);
     JsonConfigErrors get_value(const std::string& key, double& val);
     JsonConfigErrors get_value(const std::string& key, int&val);
