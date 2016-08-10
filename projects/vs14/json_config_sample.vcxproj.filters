@@ -14,11 +14,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\sample.cc">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\include\libjson_config\json_config.h">
       <Filter>headers\libjson_config</Filter>
     </ClInclude>
@@ -28,8 +23,13 @@
     <ClInclude Include="..\..\include\libjson_config\json_config_errors.h">
       <Filter>headers\libjson_config</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\sample.h">
+    <ClInclude Include="..\..\src\sample\sample.h">
       <Filter>headers</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\sample\sample.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

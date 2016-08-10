@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\sample.cc" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\include\libjson_config\json_config.h" />
     <ClInclude Include="..\..\include\libjson_config\json_config_define.h" />
     <ClInclude Include="..\..\include\libjson_config\json_config_errors.h" />
-    <ClInclude Include="..\..\src\sample.h" />
+    <ClInclude Include="..\..\src\sample\sample.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\sample\sample.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{39389F9B-3179-4098-BE28-ABDA0F126EF9}</ProjectGuid>
