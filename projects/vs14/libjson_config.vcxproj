@@ -111,6 +111,11 @@
       <AdditionalLibraryDirectories>../../lib/libjsoncpp/$(Platform)_$(Configuration)/;../../lib/Pre-built.2_$(Platform)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>lib_json.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ..\..\
+.\generate_version.bat
+cd $(ProjectDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -148,6 +153,11 @@
       <AdditionalLibraryDirectories>../../lib/libjsoncpp/$(Platform)_$(Configuration)/;../../lib/Pre-built.2_$(Platform)/;</AdditionalLibraryDirectories>
       <AdditionalDependencies>lib_json.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ..\..\
+.\generate_version.bat
+cd $(ProjectDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\libjson_config\json_config.h" />
@@ -164,6 +174,7 @@
     <ClInclude Include="..\..\src\libjson_config\json\version.h" />
     <ClInclude Include="..\..\src\libjson_config\json\writer.h" />
     <ClInclude Include="..\..\src\libjson_config\json_config_content.h" />
+    <ClInclude Include="..\..\src\libjson_config\libjson_config_version.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\pthread.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\sched.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\semaphore.h" />
@@ -171,6 +182,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\libjson_config\json_config.cc" />
     <ClCompile Include="..\..\src\libjson_config\json_config_content.cc" />
+    <ClCompile Include="..\..\src\libjson_config\libjson_config_version.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\libjson_config_version" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

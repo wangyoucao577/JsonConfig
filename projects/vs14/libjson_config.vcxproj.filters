@@ -18,6 +18,9 @@
     <Filter Include="headers\libjson_config">
       <UniqueIdentifier>{3cca04bd-777e-49a8-a75f-6193e8d556fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{47ec5405-f1ec-401f-9057-fae3e8411fde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\libjson_config\json\assertions.h">
@@ -71,6 +74,9 @@
     <ClInclude Include="..\..\include\libjson_config\json_config_errors.h">
       <Filter>headers\libjson_config</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\libjson_config\libjson_config_version.h">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\libjson_config\json_config.cc">
@@ -79,5 +85,13 @@
     <ClCompile Include="..\..\src\libjson_config\json_config_content.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\libjson_config\libjson_config_version.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\libjson_config_version">
+      <Filter>resources</Filter>
+    </None>
   </ItemGroup>
 </Project>
