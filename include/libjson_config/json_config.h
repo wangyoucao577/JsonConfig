@@ -214,3 +214,10 @@ private:
     JsonConfigContent* config_content_;
 };
 
+/**
+@brief get version of the libjson_config
+@param major output the major numeric version. pass in NULL if you don't care.
+@param minor output the minor numeric version. pass in NULL if you don't care.
+@return version pointer to the static version string, for caller's printf.
+*/
+JSON_CONFIG_API const char * libjson_config_version(int* major, int* minor);

@@ -6,6 +6,11 @@ using namespace std;
 
 void json_config_sample()
 {
+    int jc_major = 0, jc_minor = 0;
+    const char * jc_ver_str = libjson_config_version(&jc_major, &jc_minor);
+    printf("libjson_config major %d minor %d.\n", jc_major, jc_minor);
+    printf("%s\n", jc_ver_str);
+
     JsonConfig *jc = new JsonConfig("sample.cfg");
 
     jc->insert_item_string(SAMPLE_CONFIG_STRING_KEY_NAME, SAMPLE_CONFIG_STRING_VALUE_NAME);
