@@ -4,7 +4,6 @@
 #define LIBJSON_CONFIG_VERSION_MAJOR           0  
 #define LIBJSON_CONFIG_VERSION_MINOR           1  
 #define LIBJSON_CONFIG_VERSION_REVISION        0  
-#define LIBJSON_CONFIG_VERSION_BUILD           0  
-#define LIBJSON_CONFIG_VERSION_STRING          "0.1.0.0"  
-#define LIBJSON_CONFIG_VERSION_STRING_EX       "libjson_config version:0.1.0.0 build at 2016-08-16 16:53:14"  
+#define LIBJSON_CONFIG_VERSION_STRING          "0.1.0.r60(eb9e8c6)"  
+#define LIBJSON_CONFIG_VERSION_STRING_EX       "libjson_config version:0.1.0.r60(eb9e8c6) build at 2016-08-16 17:54:30"  
 #endif 
