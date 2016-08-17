@@ -19,6 +19,6 @@ echo #define %app_name%_VERSION_MAJOR           %MAJOR_VERSION% >>%header_file_l
 echo #define %app_name%_VERSION_MINOR           %MINOR_VERSION% >>%header_file_location%  2>&1 
 echo #define %app_name%_VERSION_REVISION        %REVISION_VERSION% >>%header_file_location%  2>&1 
 echo #define %app_name%_VERSION_BUILD           %GIT_VERSION_COMMIT% >>%header_file_location%  2>&1 
-echo #define %app_name%_VERSION_STRING          "%MAJOR_VERSION%.%MINOR_VERSION%.%REVISION_VERSION%.r%GIT_VERSION_COMMIT%(%GIT_VERSION%)" >>%header_file_location%  2>&1 
-echo #define %app_name%_VERSION_STRING_EX       "%app_name_lowercase% version:%MAJOR_VERSION%.%MINOR_VERSION%.%REVISION_VERSION%.r%GIT_VERSION_COMMIT%(%GIT_VERSION%) build at %date:~0,4%-%date:~5,5% %time:~0,8%" >>%header_file_location%  2>&1 
+echo #define %app_name%_VERSION_STRING          "%MAJOR_VERSION%.%MINOR_VERSION%.%REVISION_VERSION%.%GIT_VERSION_COMMIT%(%GIT_VERSION%)" >>%header_file_location%  2>&1 
+echo #define %app_name%_VERSION_STRING_EX       "%app_name_lowercase% version:%MAJOR_VERSION%.%MINOR_VERSION%.%REVISION_VERSION%.%GIT_VERSION_COMMIT%(%GIT_VERSION%) build at %date:~0,4%-%date:~5,5% %time:~0,8%" >>%header_file_location%  2>&1 
 echo #endif >>%header_file_location%  2>&1 
