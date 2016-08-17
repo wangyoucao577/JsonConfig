@@ -178,6 +178,7 @@ cd $(ProjectDir)</Command>
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\pthread.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\sched.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\semaphore.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\libjson_config\json_config.cc" />
@@ -186,6 +187,9 @@ cd $(ProjectDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\libjson_config_version" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\src\libjson_config\libjson_config.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
