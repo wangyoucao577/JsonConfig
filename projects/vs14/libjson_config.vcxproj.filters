@@ -77,8 +77,8 @@
     <ClInclude Include="..\..\src\libjson_config\libjson_config_version.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>headers</Filter>
+    <ClInclude Include="..\..\src\libjson_config\resource.h">
+      <Filter>resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

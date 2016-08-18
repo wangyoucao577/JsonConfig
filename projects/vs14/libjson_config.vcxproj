@@ -178,7 +178,7 @@ cd $(ProjectDir)</Command>
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\pthread.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\sched.h" />
     <ClInclude Include="..\..\src\libjson_config\Pre-built.2\semaphore.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\src\libjson_config\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\libjson_config\json_config.cc" />
