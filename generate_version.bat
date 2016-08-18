@@ -3,7 +3,6 @@
 for /f "tokens=1,2 delims==" %%i in (libjson_config_version) do set %%i=%%j
 
 call git_version.bat
-for /f "tokens=1,2 delims== " %%i in (libjson_config_git_version) do set %%i=%%j
 
 
 set app_name_lowercase=libjson_config
