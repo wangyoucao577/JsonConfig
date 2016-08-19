@@ -183,7 +183,6 @@ cd $(ProjectDir)</Command>
   <ItemGroup>
     <ClCompile Include="..\..\src\libjson_config\json_config.cc" />
     <ClCompile Include="..\..\src\libjson_config\json_config_content.cc" />
-    <ClCompile Include="..\..\src\libjson_config\libjson_config_version.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\libjson_config_version" />

@@ -1,6 +1,10 @@
 
 #include "json_config.h"
 #include "json_config_content.h"
+#include "libjson_config_version.h"
+
+const static char* kLibJsonConfigVersionString = LIBJSON_CONFIG_VERSION_STRING_EX;
+
 
 JsonConfig::JsonConfig(string config_file_path) :
 config_content_(new JsonConfigContent(config_file_path))
@@ -179,4 +183,15 @@ string JsonConfig::dump()
 size_t JsonConfig::size()
 {
     return config_content_->size();
+}
+
+const char * JsonConfig::libjson_config_version(int * major, int * minor)
+{
+    if (major) {
+        *major = LIBJSON_CONFIG_VERSION_MAJOR;
+    }
+    if (minor) {
+        *minor = LIBJSON_CONFIG_VERSION_MINOR;
+    }
+    return kLibJsonConfigVersionString;
 }
