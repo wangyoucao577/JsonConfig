@@ -2,5 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\src\test\main.cc" />
+    <ClCompile Include="..\..\src\test\test_case_boundary.cc" />
+    <ClCompile Include="..\..\src\test\json_config_test_common.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\test\json_config_test_common.h" />
+    <ClInclude Include="..\..\src\test\test_case_boundary.h" />
   </ItemGroup>
 </Project>
