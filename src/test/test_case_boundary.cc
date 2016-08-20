@@ -37,12 +37,41 @@ void string_interface_key_boundary_test()
 
     delete jc;
     jc = NULL;
+}
 
+void string_interface_value_boundary_test()
+{
+    JsonConfig* jc = NULL;
 
+    jc = new JsonConfig("value_boundary_string.test");
+    jc->insert_item_string(kNormalStr[0], kNullStr);
+    jc->insert_item_string(kNormalStr[1], kVeryLongStr);
+    jc->initialize();
+
+    string val_0 = jc->value_string(kNormalStr[0]);
+    JSON_CONFIG_TEST_ASSERT(val_0 == kNullStr);
+    string val_1 = jc->value_string(kNormalStr[1]);
+    JSON_CONFIG_TEST_ASSERT(val_1 == kVeryLongStr);
+
+    jc->set_value_string(kNormalStr[0], kVeryLongStr);
+    jc->set_value_string(kNormalStr[1], kNullStr);
+
+    string val_2, val_3;
+    JsonConfigErrors err = jc->get_value_string(kNormalStr[0], val_2);
+    JSON_CONFIG_TEST_ASSERT(err == kOK);
+    JSON_CONFIG_TEST_ASSERT(val_2 == kVeryLongStr);
+
+    err = jc->get_value_string(kNormalStr[1], val_3);
+    JSON_CONFIG_TEST_ASSERT(err == kOK);
+    JSON_CONFIG_TEST_ASSERT(val_3 == kNullStr);
+
+    delete jc;
+    jc = NULL;
 }
 
 
 void boundary_test_suite()
 {
     string_interface_key_boundary_test();
+    string_interface_value_boundary_test();
 }
