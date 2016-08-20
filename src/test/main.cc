@@ -12,5 +12,4 @@ int main()
     char a;
     scanf_s("%c", &a, (int)sizeof(a));
     return 0;
-    return 0;
 }
