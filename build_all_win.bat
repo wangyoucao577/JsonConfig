@@ -17,3 +17,4 @@ goto end)
 echo "Build all succeed!"
 
 :end
+timeout 30
