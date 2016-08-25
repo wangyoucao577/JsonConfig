@@ -14,6 +14,19 @@ IF NOT %ERRORLEVEL% EQU 0 (
 echo "ERROR!!! Build failed here!" 
 goto end)
 
+%VS_14_EXE_PATH% projects\json_config_vs14.sln /rebuild "Debug|x86" 
+echo "ERRORLEVEL:"%ERRORLEVEL%
+IF NOT %ERRORLEVEL% EQU 0 (
+echo "ERROR!!! Build failed here!" 
+goto end)
+
+%VS_14_EXE_PATH% projects\json_config_vs14.sln /rebuild "Release|x86" 
+echo "ERRORLEVEL:"%ERRORLEVEL%
+IF NOT %ERRORLEVEL% EQU 0 (
+echo "ERROR!!! Build failed here!" 
+goto end)
+
+
 echo "Build all succeed!"
 
 :end
