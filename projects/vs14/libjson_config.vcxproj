@@ -104,6 +104,11 @@
       <AdditionalLibraryDirectories>../../lib/libjsoncpp/$(PlatformShortName)_$(Configuration)/;../../lib/Pre-built.2_$(PlatformShortName)/</AdditionalLibraryDirectories>
       <AdditionalDependencies>lib_json.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ..\..\
+.\generate_version.bat
+cd $(ProjectDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -145,6 +150,11 @@ cd $(ProjectDir)</Command>
       <AdditionalLibraryDirectories>../../lib/libjsoncpp/$(PlatformShortName)_$(Configuration)/;../../lib/Pre-built.2_$(PlatformShortName)/</AdditionalLibraryDirectories>
       <AdditionalDependencies>lib_json.lib;pthreadVC2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ..\..\
+.\generate_version.bat
+cd $(ProjectDir)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
