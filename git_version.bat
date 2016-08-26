@@ -1,6 +1,6 @@
 @echo off
 
-set GIT_COMMAND_PATH="C:\Program Files (x86)\Git\cmd\"
+set GIT_COMMAND_PATH="C:\Program Files\Git\cmd\"
 set PATH=%PATH%;%GIT_COMMAND_PATH%
 
 git.exe --version
